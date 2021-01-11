@@ -1,0 +1,143 @@
+﻿@model IEnumerable<SIAMVC.Models.Photograph>
+
+@{
+    ViewData["Title"] = "SearchClassNo";
+}
+
+<h1>SearchClassNo</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AccessionNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NextAccessionNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrevAccessionNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Format)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Media)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Photographer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StorageArea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Availabletobuy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Classno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dateentered)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dateofimage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Idno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Incopyright)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staffid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Viewcount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.url)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccessionNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NextAccessionNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrevAccessionNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Format)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Media)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Photographer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StorageArea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Area)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Availabletobuy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Classno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dateentered)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dateofimage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Idno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Incopyright)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staffid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Viewcount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.url)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

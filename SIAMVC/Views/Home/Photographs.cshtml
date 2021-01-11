@@ -1,0 +1,50 @@
+﻿@model SIAMVC.Models.Photograph
+
+@{
+	var cssClass = "govuk-heading-l";
+	ViewData["Title"] = Model.Title;
+}
+
+	<a asp-action="Index">Search again</a>
+
+<h1 class="@cssClass">@Model.Title</h1>
+
+<p class="govuk-caption-l"><strong>@Model.Description</strong></p>
+
+<img src=@Model.url />
+<span>
+	<p>
+		@Html.DisplayNameFor(model => model.AccessionNo) :
+		<strong>@Html.DisplayFor(model => model.AccessionNo)</strong>
+	</p>
+	<p>
+		@Html.DisplayNameFor(model => model.Classno) :
+		<strong>@Html.DisplayFor(model => model.Classno)</strong>
+	</p>
+
+	<p>
+		@Html.DisplayNameFor(model => model.Photographer) :
+		<strong>@Html.DisplayFor(model => model.Photographer)</strong>
+	</p>
+	<p>
+		@Html.DisplayNameFor(model => model.Dateofimage) :
+		<strong>@Html.DisplayFor(model => model.Dateofimage)</strong>
+	</p>
+	<p>
+		@Html.DisplayNameFor(model => model.Area) :
+		<strong>@Html.DisplayFor(model => model.Area)</strong>
+	</p>
+
+	<p>
+		@Html.DisplayNameFor(model => model.Incopyright) :
+		<strong>@Html.DisplayFor(model => model.Incopyright)</strong>
+	</p>
+	<p>
+		@Html.DisplayNameFor(model => model.Availabletobuy) :
+		<strong>@Html.DisplayFor(model => model.Availabletobuy)</strong>
+	</p>
+</span>
+<div>
+	<a href="javascript:history.go(-1)">Back to search</a>
+	<a asp-action="Index">Search again</a>
+</div>

@@ -1,0 +1,173 @@
+﻿/*
+** IE and Edge css for legend width.
+*/
+_:-ms-lang(x), legend { width: 100%; }
+
+ul {
+    margin: 0 0 20px 15px;
+}
+
+ul li {
+    margin: 0;
+}
+
+ol.indented-list {
+    margin: 0 0 20px 35px;
+}
+
+ol {
+    margin: 0 0 20px 15px;
+    padding-left: 0px;
+}
+
+.text-area-validation {
+    top: -10px;
+}
+
+.form-builder-img {
+    width: 100%;
+}
+
+fieldset.input-memorable-date, fieldset.input-time {
+    margin-bottom: 24px;
+}
+
+.input-memorable-date div input[type=text] {
+    display: inline-block;
+    width: 55px;
+    margin-right: 20px;
+}
+
+.input-memorable-date div {
+    display: inline-block;
+    position: relative;
+}
+
+.input-memorable-date div:last-of-type input[type=text] {
+    width: 110px;
+}
+
+.input-time div input[type=text] {
+    display: inline-block;
+    width: 55px;
+    margin-right: 20px;
+}
+
+.input-time div {
+    display: inline-block;
+    position: relative;
+}
+
+.user-search-term {
+    display: flex; 
+}
+
+.user-search-term > p {
+    flex-grow: 0.2;
+}
+
+.user-search-term > p > strong {
+    padding-right: 5px;
+}
+
+.floatLeft {
+    float: left;
+}
+
+.clearfix {
+    height: 200px;
+}
+
+@media only screen and (max-width: 767px) {
+    ol .indented-list {
+        margin-left: 25px;
+    }
+
+    .horizontal{
+        display:table-cell !important;
+        width:50%;
+    }
+
+    .ampm {
+        width:100%;
+    }
+
+    .user-search-term > p{
+        flex-grow: 0.5;
+    }
+}
+
+
+    .colon-divider {
+        text-align: left;
+        font-weight: 500;
+    }
+
+    .horizontal > label {
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        font-size: 19px;
+        line-height: 28px;
+        display: inline-block;
+        font-family: Noto Sans, Arial, sans-serif;
+        font-weight: 400;
+        margin: 0;
+        padding: 12px 18px 4px 45px;
+        position: relative;
+    }
+
+    ::-webkit-clear-button {
+        display: none;
+    }
+
+    .timeinput {
+        display: inline;
+    }
+
+    #formTitle {
+        color: white;
+        font-size: 1.5em;
+        width: 66.66%;
+        float: left;
+        margin-top: 14px;
+        padding-left: 15px;
+    }
+
+    #formTitle > a:hover {
+        text-decoration: underline;
+    }
+
+    #formTitle > a {
+        color: white;
+        text-decoration: none;
+    }
+
+    #header-wrapper {
+        display: flex;
+    }
+
+    body > header #header-logo-width {
+        width: 33.33%;
+        float: left;
+        padding-right: 15px;
+    }
+
+    form h1 label {
+        font-size: 1em;
+    }
+
+@media only screen and (max-width: 415px) {
+
+    #formTitle {
+        width: 100%;
+        margin-top: 50px;
+        padding-left: 0px;
+        font-size: 1.3em;
+    }
+
+    body > header #header-logo-width {
+        width: 0%;
+        padding-right: 0px;
+    }
+}
