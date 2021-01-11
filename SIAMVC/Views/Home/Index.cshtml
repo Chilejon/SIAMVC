@@ -56,7 +56,7 @@
 				}
 			}
 
-			<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim() })">
+			<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim() })">
 				<img src=@photograph.url style="width:200px" onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
 			</a>
 			<p class="govuk-heading-s">

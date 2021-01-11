@@ -32,8 +32,7 @@ namespace SIAMVC.Services
 			client.BaseAddress = new Uri(SearchURL);
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 			HttpResponseMessage response = client.GetAsync(urlParameters + indexViewModel.SearchString).Result;
-			string prevAccessionNo = "0";
-			string nextAccessionNo = "0";
+
 			if (response.IsSuccessStatusCode)
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
@@ -43,15 +42,49 @@ namespace SIAMVC.Services
 					foreach (var photograph in photographs)
 					{
 						photograph.url = "https://interactive.stockport.gov.uk/stockportimagearchive/SIA/" + photograph.AccessionNo.Trim() + ".jpg";
-						//photograph.url = urlcheckImage(photograph);
-						
-						//if (!string.IsNullOrEmpty(prevAccessionNo))
-						//{
-						//	photograph.PrevAccessionNo = prevAccessionNo;
-						//	photograph.NextAccessionNo = nextAccessionNo;
-						//}
+						photograph.SearchResults = photographs;
+						photograph.SearchString = indexViewModel.SearchString.Trim();
+						photograph.AccessionNo = photograph.AccessionNo.Trim();
+					}
 
-						prevAccessionNo = photograph.AccessionNo;
+					indexViewModel.Photographs = photographs;
+					indexViewModel.Message = string.Empty;
+				}
+				else
+				{
+					indexViewModel.Message = "No search results for : " + indexViewModel.SearchString;
+				}
+				return indexViewModel;
+			}
+			else
+			{
+				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+			}
+			client.Dispose();
+			return indexViewModel;
+		}
+
+		public async Task<IndexViewModel> SearchPhotographsByTitle(string searchString)
+		{
+			IndexViewModel indexViewModel = new IndexViewModel();
+			if (searchString.Length < 3)
+			{
+				indexViewModel.Message = "Search term is too short : " + indexViewModel.SearchString;
+				return indexViewModel;
+			}
+
+			client.BaseAddress = new Uri(SearchURL);
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+			HttpResponseMessage response = client.GetAsync(urlParameters + indexViewModel.SearchString).Result;
+			if (response.IsSuccessStatusCode)
+			{
+				var listPhotographs = response.Content.ReadAsStringAsync().Result;
+				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
+				if (photographs != null)
+				{
+					foreach (var photograph in photographs)
+					{
+						photograph.url = "https://interactive.stockport.gov.uk/stockportimagearchive/SIA/" + photograph.AccessionNo.Trim() + ".jpg";
 
 						photograph.SearchResults = photographs;
 					}
@@ -124,7 +157,7 @@ namespace SIAMVC.Services
 			}
 		}
 
-		public async Task<Photograph> GetPhotographsByAccessionNo(string accessionNo)
+		public async Task<Photograph> GetPhotographsByAccessionNo(string accessionNo, string searchString)
 		{
 			HttpClient client = new HttpClient();
 			client.BaseAddress = new Uri(GetPhoto);
@@ -137,11 +170,9 @@ namespace SIAMVC.Services
 				var photograph = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs).FirstOrDefault();
 				var photographArea = (Areas.areas)int.Parse(photograph.Area.Replace(".0", ""));
 				photograph.Area = photographArea.ToString();
-
 				photograph.url = "https://interactive.stockport.gov.uk/stockportimagearchive/SIA/" + photograph.AccessionNo.Trim() + ".jpg";
 				photograph.url = urlcheckImage(photograph);
-				//photograph.PrevAccessionNo = prevAccessionNo;
-				//photograph.NextAccessionNo = nextAccessionNo;
+				photograph.SearchString = searchString;
 
 				return photograph;
 			}

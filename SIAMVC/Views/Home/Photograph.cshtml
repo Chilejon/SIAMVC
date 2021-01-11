@@ -6,14 +6,13 @@
 }
 
 <a asp-action="Index">Search again</a>
-@*@if (!string.IsNullOrEmpty(Model.PrevAccessionNo))
-	{
+
 		<p class="govuk-heading-s">
-			<a href="@Url.Action("Photograph", "Home", new { accessionno = Model.PrevAccessionNo.Trim() })">
-				<span>Prev</span>
+			<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo })">
+				<span>Next</span>
 			</a>
 		</p>
-	}*@
+
 <h1 class="@cssClass">@Model.Title</h1>
 
 <p class="govuk-caption-l"><strong>@Model.Description</strong></p>

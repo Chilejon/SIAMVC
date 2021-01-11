@@ -23,6 +23,7 @@ namespace SIAMVC.Models
 		public string Title { get; set; }
 		public string Viewcount { get; set; }
 		public string url { get; set; }
+		public string SearchString { get; set; }
 		public List<Photograph> SearchResults { get; set; }
 	}
 }
