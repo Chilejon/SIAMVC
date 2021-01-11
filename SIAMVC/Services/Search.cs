@@ -43,13 +43,14 @@ namespace SIAMVC.Services
 					foreach (var photograph in photographs)
 					{
 						photograph.url = "https://interactive.stockport.gov.uk/stockportimagearchive/SIA/" + photograph.AccessionNo.Trim() + ".jpg";
-						photograph.url = urlcheckImage(photograph);
+						//photograph.url = urlcheckImage(photograph);
 						
-						if (!string.IsNullOrEmpty(prevAccessionNo))
-						{
-							photograph.PrevAccessionNo = prevAccessionNo;
-							photograph.NextAccessionNo = nextAccessionNo;
-						}
+						//if (!string.IsNullOrEmpty(prevAccessionNo))
+						//{
+						//	photograph.PrevAccessionNo = prevAccessionNo;
+						//	photograph.NextAccessionNo = nextAccessionNo;
+						//}
+
 						prevAccessionNo = photograph.AccessionNo;
 
 						photograph.SearchResults = photographs;

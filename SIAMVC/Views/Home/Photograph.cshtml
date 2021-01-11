@@ -18,7 +18,7 @@
 
 <p class="govuk-caption-l"><strong>@Model.Description</strong></p>
 
-<img src=@Model.url />
+<img src=@Model.url onError="this.onerror=null;this.src='..assets/images/notfound.jpg';"/>
 <span>
 	<p>
 		@Html.DisplayNameFor(model => model.AccessionNo) :
