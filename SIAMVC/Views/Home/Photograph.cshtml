@@ -5,13 +5,22 @@
 	ViewData["Title"] = Model.Title;
 }
 
-<a asp-action="Index">Search again</a>
+	<p class="govuk-heading-s"><a asp-action="Index" class="govuk-heading-m">Search page</a></p>
+<p class="govuk-heading-s">
+	<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString })">
+		<span>Back to results</span>
+	</a>
+</p>
 
-		<p class="govuk-heading-s">
-			<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo })">
-				<span>Next</span>
-			</a>
-		</p>
+<p class="govuk-heading-s">
+	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "prev" })">
+		<span>< Previous</span>
+	</a>
+	&nbsp; &nbsp;
+	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "next" })">
+		<span>Next ></span>
+	</a>
+</p>
 
 <h1 class="@cssClass">@Model.Title</h1>
 
@@ -19,60 +28,44 @@
 
 <img src=@Model.url onError="this.onerror=null;this.src='..assets/images/notfound.jpg';"/>
 <span>
-	<p>
+	<p class="govuk-caption-l">
 		@Html.DisplayNameFor(model => model.AccessionNo) :
 		<strong>@Html.DisplayFor(model => model.AccessionNo)</strong>
 	</p>
-	<p>
+	<p class="govuk-caption-l">
 		@Html.DisplayNameFor(model => model.Classno) :
 		<strong>@Html.DisplayFor(model => model.Classno)</strong>
 
-	<p class="govuk-heading-s">
+<p class="govuk-heading-s">
 		<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno })">
 			<span>More like this</span>
 		</a>
 	</p>
 	</p>
 
-	<p>
+	<p class="govuk-caption-l">
 		@Html.DisplayNameFor(model => model.Photographer) :
 		<strong>@Html.DisplayFor(model => model.Photographer)</strong>
 	</p>
-	<p>
+	<p class="govuk-caption-l">
 		@Html.DisplayNameFor(model => model.Dateofimage) :
 		<strong>@Html.DisplayFor(model => model.Dateofimage)</strong>
 	</p>
-	<p>
+	<p class="govuk-caption-l">
 		@Html.DisplayNameFor(model => model.Area) :
 		<strong>@Html.DisplayFor(model => model.Area)</strong>
 	</p>
 
-	<p>
+	<p class="govuk-caption-l">
 		@Html.DisplayNameFor(model => model.Incopyright) :
 		<strong>@Html.DisplayFor(model => model.Incopyright)</strong>
 	</p>
-	<p>
+	<p class="govuk-caption-l">
 		@Html.DisplayNameFor(model => model.Availabletobuy) :
 		<strong>@Html.DisplayFor(model => model.Availabletobuy)</strong>
 	</p>
 </span>
 
-@*@foreach (Photograph photograph in Model.SearchResults)
-{
-
-	<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim() })">
-		<img src=@photograph.url style="width:100px" />
-	</a>
-	<p class="govuk-caption-s">
-		@photograph.Title <a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim()})">
-			<span>View</span>
-		</a>
-	</p>
-}*@
-
-
-
 <div>
-	<a href="javascript:history.go(-1)">Back to search</a>
-	<a asp-action="Index">Search again</a>
+	<a asp-action="Index" class="govuk-heading-m">Search page</a>
 </div>

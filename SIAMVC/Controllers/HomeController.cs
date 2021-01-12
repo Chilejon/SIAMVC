@@ -59,8 +59,38 @@ namespace SIAMVC.Controllers
 		}
 
 		[HttpGet]
+		[Route("ShowResults")]
+		public async Task<IActionResult> ShowResults(string searchString)
+		{
+			if (!ModelState.IsValid)
+			{
+				IndexViewModel indexViewModel = new IndexViewModel();
+				return View(indexViewModel);
+			}
+
+			var cacheKey = searchString.Trim();
+
+			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
+			{
+				searchResults = await search.SearchPhotographsByTitle(searchString);
+
+				var cachExpirationOptions = new MemoryCacheEntryOptions
+				{
+					AbsoluteExpiration = DateTime.Now.AddHours(6),
+					Priority = CacheItemPriority.Normal,
+					SlidingExpiration = TimeSpan.FromMinutes(5)
+				};
+
+				_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
+			}
+
+			//return RedirectToAction("Index", searchResults);
+			return View(searchResults);
+		}
+
+		[HttpGet]
 		[Route("Next")]
-		public async Task<IActionResult> Next(string searchString, string accessionNo)
+		public async Task<IActionResult> Next(string searchString, string accessionNo, string direction)
 		{
 			var cacheKey = searchString.Trim();
 
@@ -78,9 +108,33 @@ namespace SIAMVC.Controllers
 				_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
 			}
 
-			Photograph photograph = searchResults.Photographs[2];
+			Photograph nextPhotograph = searchResults.Photographs.FirstOrDefault();
+			try
+			{
+				Photograph currentPhotograph = searchResults.Photographs.Where(x => x.AccessionNo == accessionNo.Trim()).FirstOrDefault();
+				int indexOfCurrentImage = searchResults.Photographs.IndexOf(currentPhotograph);
+				
+				if (direction == "next")
+				{
+					nextPhotograph = searchResults.Photographs[indexOfCurrentImage + 1];
+				}
+				else
+				{
+					nextPhotograph = searchResults.Photographs[indexOfCurrentImage - 1];
 
-			return RedirectToAction("Photograph", new { accessionno = photograph.AccessionNo, searchString = searchString });
+				}
+				
+			}
+			catch (Exception)
+			{
+				if(direction == "next")
+				{
+					nextPhotograph = searchResults.Photographs.Last();
+				}
+
+				
+			}
+			return RedirectToAction("Photograph", new { accessionno = nextPhotograph.AccessionNo, searchString = searchString });
 		}
 
 		[HttpGet]

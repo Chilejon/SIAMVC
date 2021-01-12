@@ -1,0 +1,73 @@
+﻿@model SIAMVC.Models.IndexViewModel
+@{
+	var cssClass = "govuk-heading-l";
+	var baseCssClasses = "govuk-input";
+	ViewData["Title"] = "Home Page";
+
+}
+
+<div class="text-center">
+	<h1 class="@cssClass">Stockport image archive</h1>
+	@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+	{
+		<div class="govuk-form-group">
+
+			@Html.TextBoxFor(m => m.SearchString, new { @class = "govuk-input" })
+			@Html.ValidationMessageFor(m => m.SearchString, String.Empty,
+		   new { @class = "smbc-error-message" })
+			<br />
+			<input type="submit" value="Search" class="govuk-button" />
+		</div>
+	}
+
+	@if (!string.IsNullOrEmpty(Model.Message))
+	{
+		<span class="govuk-caption-l">@Html.DisplayFor(model => model.Message)</span>
+	}
+
+	@if (Model.Photographs != null)
+	{
+		@if (Model.Photographs.Count > 0)
+		{
+			<span class="govuk-caption-l">@Model.Photographs.Count images found</span>
+		}
+
+		int count = 0;
+		string prevAccessionNo = string.Empty;
+		string nextAccessionNo = string.Empty;
+		string prevPrevAccessionNo = string.Empty;
+		string nextNextAccessionNo = string.Empty;
+
+		foreach (var photograph in Model.Photographs)
+		{
+			if (count >= 1)
+			{
+				if (photograph.SearchResults[count - 1] != null)
+				{
+					prevAccessionNo = photograph.SearchResults[count - 1].AccessionNo.Trim();
+				}
+			}
+
+			if (count != photograph.SearchResults.Count - 1)
+			{
+				if (count < photograph.SearchResults.Count && photograph.SearchResults[count + 1] != null)
+				{
+					nextAccessionNo = photograph.SearchResults[count + 1].AccessionNo.Trim();
+				}
+			}
+
+			<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim() })">
+				<img src=@photograph.url style="width:200px" onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
+			</a>
+			<p class="govuk-heading-s">
+				@photograph.Title <a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim() })">
+					<span>View</span>
+				</a>
+			</p>
+			count = count + 1;
+			<br />
+		}
+	}
+</div>
+
+
