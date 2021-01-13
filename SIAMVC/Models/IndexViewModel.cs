@@ -9,6 +9,7 @@ namespace SIAMVC.Models
 		[MaxLength(20, ErrorMessage="Reduce search string")]
 		public string SearchString { get; set; }
 		public string Message { get; set; }
+		public string SearchOption { get; set; }
 		public List<Photograph> Photographs { get; set; } = new List<Photograph>();
 	}
 }
