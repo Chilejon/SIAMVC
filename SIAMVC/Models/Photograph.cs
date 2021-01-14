@@ -24,6 +24,7 @@ namespace SIAMVC.Models
 		public string Viewcount { get; set; }
 		public string url { get; set; }
 		public string SearchString { get; set; }
+		public string SearchOption { get; set; }
 		public List<Photograph> SearchResults { get; set; }
 	}
 }

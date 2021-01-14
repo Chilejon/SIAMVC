@@ -7,17 +7,17 @@
 
 	<p class="govuk-heading-s"><a asp-action="Index" class="govuk-heading-m">Search page</a></p>
 <p class="govuk-heading-s">
-	<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString })">
+	<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString, searchOption = Model.SearchOption })">
 		<span>Back to results</span>
 	</a>
 </p>
 
 <p class="govuk-heading-s">
-	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "prev" })">
+	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "prev", searchOption = Model.SearchOption })">
 		<span>< Previous</span>
 	</a>
 	&nbsp; &nbsp;
-	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "next" })">
+	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "next", searchOption = Model.SearchOption })">
 		<span>Next ></span>
 	</a>
 </p>

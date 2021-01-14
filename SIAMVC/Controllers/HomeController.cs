@@ -39,7 +39,10 @@ namespace SIAMVC.Controllers
 				return View(indexViewModel);
 			}
 
-			var cacheKey = indexViewModel.SearchString.Trim();
+			var cacheKey = indexViewModel.SearchString.Trim() + indexViewModel.SearchOption.Trim();
+
+			if (indexViewModel.SearchOption == "Title")
+			{ 
 
 			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 			{
@@ -54,13 +57,30 @@ namespace SIAMVC.Controllers
 
 				_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
 			}
+				return View(searchResults);
+			}
+			else
+			{
+				if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
+				{
+					searchResults = await search.SearchPhotographsByTitle(indexViewModel);
 
-			return View(searchResults);
+					var cachExpirationOptions = new MemoryCacheEntryOptions
+					{
+						AbsoluteExpiration = DateTime.Now.AddHours(6),
+						Priority = CacheItemPriority.Normal,
+						SlidingExpiration = TimeSpan.FromMinutes(5)
+					};
+
+					_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
+				}
+				return View(searchResults);
+			}
 		}
 
 		[HttpGet]
 		[Route("ShowResults")]
-		public async Task<IActionResult> ShowResults(string searchString)
+		public async Task<IActionResult> ShowResults(string searchString, string searchOption)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -72,7 +92,7 @@ namespace SIAMVC.Controllers
 
 			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 			{
-				searchResults = await search.SearchPhotographsByTitle(searchString);
+				searchResults = await search.SearchPhotographsByTitle(searchString, searchOption);
 
 				var cachExpirationOptions = new MemoryCacheEntryOptions
 				{
@@ -90,13 +110,13 @@ namespace SIAMVC.Controllers
 
 		[HttpGet]
 		[Route("Next")]
-		public async Task<IActionResult> Next(string searchString, string accessionNo, string direction)
+		public async Task<IActionResult> Next(string searchString, string accessionNo, string direction, string searchOption)
 		{
-			var cacheKey = searchString.Trim();
+			var cacheKey = searchString.Trim() + searchOption;
 
 			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 			{
-				searchResults = await search.SearchPhotographsByTitle(searchString);
+				searchResults = await search.SearchPhotographsByTitle(searchString, searchOption);
 
 				var cachExpirationOptions = new MemoryCacheEntryOptions
 				{
@@ -134,17 +154,17 @@ namespace SIAMVC.Controllers
 
 				
 			}
-			return RedirectToAction("Photograph", new { accessionno = nextPhotograph.AccessionNo, searchString = searchString });
+			return RedirectToAction("Photograph", new { accessionno = nextPhotograph.AccessionNo, searchString = searchString, searchOption = searchOption });
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> PhotographAsync(string accessionno, string searchString)
+		public async Task<IActionResult> PhotographAsync(string accessionno, string searchString, string searchOption)
 		{
 			var cacheKey = accessionno.Trim();
 
 			if (!_memoryCache.TryGetValue(cacheKey, out Photograph photograph))
 			{
-				photograph = await search.GetPhotographsByAccessionNo(accessionno.ToString(), searchString);
+				photograph = await search.GetPhotographsByAccessionNo(accessionno.ToString(), searchString, searchOption);
 
 				var cachExpirationOptions = new MemoryCacheEntryOptions
 				{
