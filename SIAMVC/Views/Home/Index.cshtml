@@ -25,7 +25,8 @@
 				   type="radio"
 				   value="Title"
 				   name="SearchOption"
-				   id="SearchOption-0" />
+				   id="SearchOption-0" 
+				   checked="checked"/>
 
 			<label class="govuk-label govuk-radios__label"
 				   for="SearchOption-0">
@@ -49,10 +50,6 @@
 
 		</div>
 	</div>
-
-
-
-
 	<br />
 	<input type="submit" value="Search" class="govuk-button" />
 </div>
@@ -75,7 +72,7 @@
 		foreach (var photograph in Model.Photographs)
 		{
 			<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim() })">
-				<img src=@photograph.url style="width:200px" onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
+				<img src=@photograph.url  onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
 			</a>
 			
 			<p class="govuk-heading-s">

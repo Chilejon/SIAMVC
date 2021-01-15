@@ -143,7 +143,6 @@ namespace SIAMVC.Controllers
 					nextPhotograph = searchResults.Photographs[indexOfCurrentImage - 1];
 
 				}
-				
 			}
 			catch (Exception)
 			{
@@ -151,8 +150,6 @@ namespace SIAMVC.Controllers
 				{
 					nextPhotograph = searchResults.Photographs.Last();
 				}
-
-				
 			}
 			return RedirectToAction("Photograph", new { accessionno = nextPhotograph.AccessionNo, searchString = searchString, searchOption = searchOption });
 		}

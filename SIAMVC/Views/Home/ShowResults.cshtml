@@ -10,14 +10,47 @@
 	<h1 class="@cssClass">Stockport image archive</h1>
 	@using (Html.BeginForm("Index", "Home", FormMethod.Post))
 	{
-		<div class="govuk-form-group">
+<div class="govuk-form-group">
 
-			@Html.TextBoxFor(m => m.SearchString, new { @class = "govuk-input" })
-			@Html.ValidationMessageFor(m => m.SearchString, String.Empty,
-		   new { @class = "smbc-error-message" })
-			<br />
-			<input type="submit" value="Search" class="govuk-button" />
+	@Html.TextBoxFor(m => m.SearchString, new { @class = "govuk-input" })
+	@Html.ValidationMessageFor(m => m.SearchString, String.Empty,
+   new { @class = "smbc-error-message" })
+	<div class="govuk-radios" data-module="govuk-radios">
+		<div class="govuk-radios__item">
+			<input class="govuk-radios__input"
+				   type="radio"
+				   value="Title"
+				   name="SearchOption"
+				   id="SearchOption-0"
+				   checked="checked"/>
+
+			<label class="govuk-label govuk-radios__label"
+				   for="SearchOption-0">
+				Title
+			</label>
+
+
 		</div>
+		<div class="govuk-radios__item">
+			<input class="govuk-radios__input"
+				   type="radio"
+				   value="All"
+				   name="SearchOption"
+				   id="SearchOption-1" />
+
+			<label class="govuk-label govuk-radios__label"
+				   for="SearchOption-1">
+				All
+			</label>
+
+
+		</div>
+	</div>
+	<br />
+
+	<br />
+	<input type="submit" value="Search" class="govuk-button" />
+</div>
 	}
 
 	@if (!string.IsNullOrEmpty(Model.Message))
