@@ -76,6 +76,7 @@ namespace SIAMVC.Services
 						photograph.SearchString = indexViewModel.SearchString.Trim();
 						photograph.AccessionNo = photograph.AccessionNo.Trim();
 						photograph.SearchOption = indexViewModel.SearchOption;
+						photograph.SearchArea = indexViewModel.SearchArea;
 					}
 
 					indexViewModel.Photographs = photographs;
@@ -95,7 +96,7 @@ namespace SIAMVC.Services
 			return indexViewModel;
 		}
 
-		public async Task<IndexViewModel> SearchPhotographsByTitle(string searchString, string searchOptions)
+		public async Task<IndexViewModel> SearchPhotographsByTitle(string searchString, string searchOptions, string searchArea)
 		{
 			IndexViewModel indexViewModel = new IndexViewModel();
 			if (searchString.Length < 3)
@@ -116,7 +117,6 @@ namespace SIAMVC.Services
 					foreach (var photograph in photographs)
 					{
 						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/" + photograph.AccessionNo.Trim() + ".jpg";
-
 						photograph.SearchResults = photographs;
 					}
 
@@ -186,7 +186,7 @@ namespace SIAMVC.Services
 			}
 		}
 
-		public async Task<Photograph> GetPhotographsByAccessionNo(string accessionNo, string searchString, string searchOption)
+		public async Task<Photograph> GetPhotographsByAccessionNo(string accessionNo, string searchString, string searchOption, string searchArea)
 		{
 			HttpClient client = new HttpClient();
 			client.BaseAddress = new Uri(GetPhoto);
@@ -205,6 +205,7 @@ namespace SIAMVC.Services
 				photograph.url = urlcheckImage(photograph);
 				photograph.SearchString = searchString;
 				photograph.SearchOption = searchOption;
+				photograph.SearchArea = searchArea;
 
 				return photograph;
 			}

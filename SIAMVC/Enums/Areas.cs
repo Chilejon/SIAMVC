@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SIAMVC.Enums
+﻿namespace SIAMVC.Enums
 {
 	public class Areas
 	{
@@ -65,6 +60,5 @@ namespace SIAMVC.Enums
 			Woodsmoor,
 			CheshireOther
 		}
-
 	}
 }

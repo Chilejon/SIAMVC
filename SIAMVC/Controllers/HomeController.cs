@@ -79,7 +79,7 @@ namespace SIAMVC.Controllers
 
 		[HttpGet]
 		[Route("ShowResults")]
-		public async Task<IActionResult> ShowResults(string searchString, string searchOption)
+		public async Task<IActionResult> ShowResults(string searchString, string searchOption, string searchArea)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -91,7 +91,7 @@ namespace SIAMVC.Controllers
 
 			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 			{
-				searchResults = await search.SearchPhotographsByTitle(searchString, searchOption);
+				searchResults = await search.SearchPhotographsByTitle(searchString, searchOption, searchArea);
 
 				var cachExpirationOptions = new MemoryCacheEntryOptions
 				{
@@ -109,13 +109,13 @@ namespace SIAMVC.Controllers
 
 		[HttpGet]
 		[Route("Next")]
-		public async Task<IActionResult> Next(string searchString, string accessionNo, string direction, string searchOption)
+		public async Task<IActionResult> Next(string searchString, string accessionNo, string direction, string searchOption, string searchArea)
 		{
-			var cacheKey = searchString.Trim() + searchOption;
+			var cacheKey = searchString.Trim() + searchOption + searchArea;
 
 			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 			{
-				searchResults = await search.SearchPhotographsByTitle(searchString, searchOption);
+				searchResults = await search.SearchPhotographsByTitle(searchString, searchOption, searchArea);
 
 				var cachExpirationOptions = new MemoryCacheEntryOptions
 				{
@@ -150,17 +150,17 @@ namespace SIAMVC.Controllers
 					nextPhotograph = searchResults.Photographs.Last();
 				}
 			}
-			return RedirectToAction("Photograph", new { accessionno = nextPhotograph.AccessionNo, searchString = searchString, searchOption = searchOption });
+			return RedirectToAction("Photograph", new { accessionno = nextPhotograph.AccessionNo, searchString = searchString, searchOption = searchOption, searchArea = searchArea });
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> PhotographAsync(string accessionno, string searchString, string searchOption)
+		public async Task<IActionResult> PhotographAsync(string accessionno, string searchString, string searchOption, string searchArea)
 		{
 			var cacheKey = accessionno.Trim();
 
 			if (!_memoryCache.TryGetValue(cacheKey, out Photograph photograph))
 			{
-				photograph = await search.GetPhotographsByAccessionNo(accessionno.ToString(), searchString, searchOption);
+				photograph = await search.GetPhotographsByAccessionNo(accessionno.ToString(), searchString, searchOption, searchArea);
 
 				var cachExpirationOptions = new MemoryCacheEntryOptions
 				{
