@@ -39,28 +39,10 @@ namespace SIAMVC.Controllers
 				return View(indexViewModel);
 			}
 
-			var cacheKey = indexViewModel.SearchString.Trim() + indexViewModel.SearchOption.Trim();
+			var cacheKey = indexViewModel.SearchString.Trim() + indexViewModel.SearchOption.Trim() + indexViewModel.SearchArea.Trim();
 
-			if (indexViewModel.SearchOption == "Title")
-			{ 
-
-			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
-			{
-				searchResults = await search.SearchPhotographsByTitle(indexViewModel);
-
-				var cachExpirationOptions = new MemoryCacheEntryOptions
-				{
-					AbsoluteExpiration = DateTime.Now.AddHours(6),
-					Priority = CacheItemPriority.Normal,
-					SlidingExpiration = TimeSpan.FromMinutes(5)
-				};
-
-				_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
-			}
-				return View(searchResults);
-			}
-			else
-			{
+			//if (indexViewModel.SearchOption == "Title")
+			//{
 				if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 				{
 					searchResults = await search.SearchPhotographsByTitle(indexViewModel);
@@ -75,7 +57,24 @@ namespace SIAMVC.Controllers
 					_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
 				}
 				return View(searchResults);
-			}
+			//}
+			//else
+			//{
+			//	if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
+			//	{
+			//		searchResults = await search.SearchPhotographsByTitle(indexViewModel);
+			//
+			//		var cachExpirationOptions = new MemoryCacheEntryOptions
+			//		{
+			//			AbsoluteExpiration = DateTime.Now.AddHours(6),
+			//			Priority = CacheItemPriority.Normal,
+			//			SlidingExpiration = TimeSpan.FromMinutes(5)
+			//		};
+			//
+			//		_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
+			//	}
+			//	return View(searchResults);
+			//}
 		}
 
 		[HttpGet]
@@ -133,7 +132,7 @@ namespace SIAMVC.Controllers
 			{
 				Photograph currentPhotograph = searchResults.Photographs.Where(x => x.AccessionNo == accessionNo.Trim()).FirstOrDefault();
 				int indexOfCurrentImage = searchResults.Photographs.IndexOf(currentPhotograph);
-				
+
 				if (direction == "next")
 				{
 					nextPhotograph = searchResults.Photographs[indexOfCurrentImage + 1];
@@ -146,7 +145,7 @@ namespace SIAMVC.Controllers
 			}
 			catch (Exception)
 			{
-				if(direction == "next")
+				if (direction == "next")
 				{
 					nextPhotograph = searchResults.Photographs.Last();
 				}

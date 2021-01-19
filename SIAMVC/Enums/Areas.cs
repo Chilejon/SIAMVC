@@ -9,6 +9,7 @@ namespace SIAMVC.Enums
 	{
 		public enum areas
 		{
+			unknown,
 			Adswood,
 			Bosden,
 			Bramhall,
@@ -53,16 +54,16 @@ namespace SIAMVC.Enums
 			Reddish,
 			Romiley,
 			RoseHill,
-			Strines,
-			Torkington,
 			TownCentre,
+			Torkington,
+			Strines,
 			Werneth,
 			Windlehurst,
 			Woodbank,
 			Woodford,
 			Woodley,
 			Woodsmoor,
-			Other
+			CheshireOther
 		}
 
 	}

@@ -18,9 +18,12 @@ namespace SIAMVC.Services
 		private const string GetPhoto = "https://interactive.stockport.gov.uk/siarestapi/v1/GetPhotosByAccNo";
 		private const string GetClassNo = "https://interactive.stockport.gov.uk/siarestapi/v1/GetPhotosByClassNo";
 		private const string GetAllPhoto = "https://interactive.stockport.gov.uk/siarestapi/v1/GetPhotosByTerm";
+		private const string GetPhotoByTermArea = "https://interactive.stockport.gov.uk/siarestapi/v1/GetPhotosByTermArea";
+		private const string GetPhotoByTitleArea = "https://interactive.stockport.gov.uk/siarestapi/v1/GetPhotosByTitleArea";
 
 		private string urlParameters = "?term=";
 		private string idParameters = "?id=";
+		private string areaParameters = "&area=";
 
 		public async Task<IndexViewModel> SearchPhotographsByTitle(IndexViewModel indexViewModel)
 		{
@@ -32,15 +35,32 @@ namespace SIAMVC.Services
 
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 			HttpResponseMessage response = new HttpResponseMessage();
-			if (indexViewModel.SearchOption == "Title")
+
+			if (indexViewModel.SearchArea == "All")
 			{
-				client.BaseAddress = new Uri(SearchURL);
-				response = client.GetAsync(urlParameters + indexViewModel.SearchString).Result;
+				if (indexViewModel.SearchOption == "Title")
+				{
+					client.BaseAddress = new Uri(SearchURL);
+					response = client.GetAsync(urlParameters + indexViewModel.SearchString).Result;
+				}
+				else if (indexViewModel.SearchOption == "All")
+				{
+					client.BaseAddress = new Uri(GetAllPhoto);
+					response = client.GetAsync(urlParameters + indexViewModel.SearchString).Result;
+				}
 			}
-			else if (indexViewModel.SearchOption == "All")
+			else
 			{
-				client.BaseAddress = new Uri(GetAllPhoto);
-				response = client.GetAsync(urlParameters + indexViewModel.SearchString).Result;
+				if (indexViewModel.SearchOption == "Title")
+				{
+					client.BaseAddress = new Uri(GetPhotoByTitleArea);
+					response = client.GetAsync(urlParameters + indexViewModel.SearchString + areaParameters + indexViewModel.SearchArea).Result;
+				}
+				else if (indexViewModel.SearchOption == "All")
+				{
+					client.BaseAddress = new Uri(GetPhotoByTermArea);
+					response = client.GetAsync(urlParameters + indexViewModel.SearchString + areaParameters + indexViewModel.SearchArea).Result;
+				}
 			}
 
 			if (response.IsSuccessStatusCode)
@@ -177,7 +197,9 @@ namespace SIAMVC.Services
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
 				var photograph = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs).FirstOrDefault();
-				var photographArea = (Areas.areas)int.Parse(photograph.Area.Replace(".0", ""));
+				var area = photograph.Area.Replace(".0", "");
+				int areaInt = int.Parse(area);
+				var photographArea = (Areas.areas)(areaInt);
 				photograph.Area = photographArea.ToString();
 				photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/" + photograph.AccessionNo.Trim() + ".jpg";
 				photograph.url = urlcheckImage(photograph);
