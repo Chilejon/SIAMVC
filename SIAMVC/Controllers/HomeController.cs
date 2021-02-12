@@ -27,6 +27,7 @@ namespace SIAMVC.Controllers
 		public IActionResult Index()
 		{
 			IndexViewModel indexViewModel = new IndexViewModel();
+			indexViewModel.SearchOption = "title";
 
 			return View(indexViewModel);
 		}
@@ -41,8 +42,6 @@ namespace SIAMVC.Controllers
 
 			var cacheKey = indexViewModel.SearchString.Trim() + indexViewModel.SearchOption.Trim() + indexViewModel.SearchArea.Trim();
 
-			//if (indexViewModel.SearchOption == "Title")
-			//{
 				if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 				{
 					searchResults = await search.SearchPhotographsByTitle(indexViewModel);
@@ -56,25 +55,12 @@ namespace SIAMVC.Controllers
 
 					_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
 				}
-				return View(searchResults);
-			//}
-			//else
-			//{
-			//	if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
-			//	{
-			//		searchResults = await search.SearchPhotographsByTitle(indexViewModel);
-			//
-			//		var cachExpirationOptions = new MemoryCacheEntryOptions
-			//		{
-			//			AbsoluteExpiration = DateTime.Now.AddHours(6),
-			//			Priority = CacheItemPriority.Normal,
-			//			SlidingExpiration = TimeSpan.FromMinutes(5)
-			//		};
-			//
-			//		_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
-			//	}
-			//	return View(searchResults);
-			//}
+
+			searchResults.SearchString = indexViewModel.SearchString;
+			searchResults.SearchArea = "Bredbury";
+			searchResults.SearchOption = indexViewModel.SearchOption;
+
+			return View(searchResults);
 		}
 
 		[HttpGet]
@@ -87,7 +73,7 @@ namespace SIAMVC.Controllers
 				return View(indexViewModel);
 			}
 
-			var cacheKey = searchString.Trim();
+			var cacheKey = searchString.Trim() + searchOption + searchArea;
 
 			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 			{

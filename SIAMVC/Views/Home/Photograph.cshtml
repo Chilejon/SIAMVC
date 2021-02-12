@@ -7,7 +7,7 @@
 
 	<p class="govuk-heading-s"><a asp-action="Index" class="govuk-heading-m">Search page</a></p>
 <p class="govuk-heading-s">
-	<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString, searchOption = Model.SearchOption })">
+	<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString, searchOption = Model.SearchOption, searchArea = Model.SearchArea})">
 		<span>Back to results</span>
 	</a>
 </p>

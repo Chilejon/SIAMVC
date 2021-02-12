@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static SIAMVC.Enums.Areas;
 
 namespace SIAMVC.Models
 {

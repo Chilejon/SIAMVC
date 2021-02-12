@@ -10,47 +10,103 @@
 	<h1 class="@cssClass">Stockport image archive</h1>
 	@using (Html.BeginForm("Index", "Home", FormMethod.Post))
 	{
-<div class="govuk-form-group">
+		<div class="govuk-form-group">
 
-	@Html.TextBoxFor(m => m.SearchString, new { @class = "govuk-input" })
-	@Html.ValidationMessageFor(m => m.SearchString, String.Empty,
-   new { @class = "smbc-error-message" })
-	<div class="govuk-radios" data-module="govuk-radios">
-		<div class="govuk-radios__item">
-			<input class="govuk-radios__input"
-				   type="radio"
-				   value="Title"
-				   name="SearchOption"
-				   id="SearchOption-0"
-				   checked="checked"/>
+			<span class="govuk-caption-l">Search</span>
+			@Html.TextBoxFor(m => m.SearchString, new { @class = "govuk-input" })
+			@Html.ValidationMessageFor(m => m.SearchString, String.Empty,
+		   new { @class = "smbc-error-message" })
+			<span class="govuk-caption-l">Search option</span>
+			<div class="govuk-radios" data-module="govuk-radios">
+				<div class="govuk-radios__item">
+					<input class="govuk-radios__input"
+						   type="radio"
+						   value="Title"
+						   name="SearchOption"
+						   id="SearchOption-0"
+						   checked="checked" />
 
-			<label class="govuk-label govuk-radios__label"
-				   for="SearchOption-0">
-				Title
-			</label>
+					<label class="govuk-label govuk-radios__label"
+						   for="SearchOption-0">
+						Title
+					</label>
+				</div>
+				<div class="govuk-radios__item">
+					<input class="govuk-radios__input"
+						   type="radio"
+						   value="All"
+						   name="SearchOption"
+						   id="SearchOption-1" />
+
+					<label class="govuk-label govuk-radios__label"
+						   for="SearchOption-1">
+						All
+					</label>
+				</div>
+			</div>
+			<span class="govuk-caption-l">Search area</span>
+			<select class="govuk-select " id="SearchArea" name="SearchArea">
+				<option value="All">All</option>
+				<option value="1">Adswood</option>
+				<option value="2">Bosden</option>
+				<option value="3">Bramhall</option>
+				<option value="4">Bredbury</option>
+				<option value="5">Brinksway</option>
+				<option value="6">Brinnington</option>
+				<option value="7">Cale Green</option>
+				<option value="8">Cheadle</option>
+				<option value="9">Cheadle Heath</option>
+				<option value="10">Cheadle Hulme</option>
+				<option value="11">Compstall</option>
+				<option value="12">Davenport</option>
+				<option value="13">Disley</option>
+				<option value="14">Edgeley</option>
+				<option value="15">Gatley</option>
+				<option value="16">Gee Cross</option>
+				<option value="17">Great Moor</option>
+				<option value="18">Greave</option>
+				<option value="19">Handforth</option>
+				<option value="20">Hatherlow</option>
+				<option value="21">Hawk Green</option>
+				<option value="22">Hazel Grove</option>
+				<option value="23">Heald Green</option>
+				<option value="24">Heaton Chapel</option>
+				<option value="25">Heaton Mersey</option>
+				<option value="26">Heaton Moor</option>
+				<option value="27">Heaton Norris</option>
+				<option value="28">Heaviley</option>
+				<option value="29">High Lane</option>
+				<option value="30">Lancashire Hill</option>
+				<option value="31">Little Moor</option>
+				<option value="32">Ludworth</option>
+				<option value="33">Lyme</option>
+				<option value="34">Marple</option>
+				<option value="35">Marple Bridge</option>
+				<option value="36">Mellor</option>
+				<option value="37">Norbury</option>
+				<option value="38">Norris Bank</option>
+				<option value="39">Offerton</option>
+				<option value="40">Portwood</option>
+				<option value="41">Poynton</option>
+				<option value="42">Reddish</option>
+				<option value="43">Romiley</option>
+				<option value="44">Rose Hill</option>
+				<option value="47">Strines</option>
+				<option value="46">Torkington</option>
+				<option value="45">Town Centre</option>
+				<option value="48">Werneth</option>
+				<option value="49">Windlehurst</option>
+				<option value="50">Woodbank</option>
+				<option value="51">Woodford</option>
+				<option value="52">Woodley</option>
+				<option value="53">Woodsmoor</option>
+				<option value="54">Cheshire/Other</option>
+			</select>
 
 
+			<br />
+			<input type="submit" value="Search" class="govuk-button" />
 		</div>
-		<div class="govuk-radios__item">
-			<input class="govuk-radios__input"
-				   type="radio"
-				   value="All"
-				   name="SearchOption"
-				   id="SearchOption-1" />
-
-			<label class="govuk-label govuk-radios__label"
-				   for="SearchOption-1">
-				All
-			</label>
-
-
-		</div>
-	</div>
-	<br />
-
-	<br />
-	<input type="submit" value="Search" class="govuk-button" />
-</div>
 	}
 
 	@if (!string.IsNullOrEmpty(Model.Message))
@@ -66,32 +122,13 @@
 		}
 
 		int count = 0;
-		string prevAccessionNo = string.Empty;
-		string nextAccessionNo = string.Empty;
-		string prevPrevAccessionNo = string.Empty;
-		string nextNextAccessionNo = string.Empty;
 
 		foreach (var photograph in Model.Photographs)
 		{
-			if (count >= 1)
-			{
-				if (photograph.SearchResults[count - 1] != null)
-				{
-					prevAccessionNo = photograph.SearchResults[count - 1].AccessionNo.Trim();
-				}
-			}
-
-			if (count != photograph.SearchResults.Count - 1)
-			{
-				if (count < photograph.SearchResults.Count && photograph.SearchResults[count + 1] != null)
-				{
-					nextAccessionNo = photograph.SearchResults[count + 1].AccessionNo.Trim();
-				}
-			}
-
-			<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim() })">
-				<img src=@photograph.url style="width:200px" onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
+			<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim(), searchArea = photograph.SearchArea.Trim() })">
+				<img src=@photograph.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
 			</a>
+
 			<p class="govuk-heading-s">
 				@photograph.Title <a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim() })">
 					<span>View</span>
@@ -102,5 +139,3 @@
 		}
 	}
 </div>
-
-
