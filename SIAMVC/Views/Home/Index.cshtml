@@ -31,6 +31,12 @@
 						All
 					</label>
 				</div>
+				<div class="govuk-radios__item">
+					@Html.RadioButtonFor(i => i.SearchOption, "IDNumber", new { @class = "govuk-radios__input" })
+					<label class="govuk-label govuk-radios__label" for="changed-name-3">
+						ID number
+					</label>
+				</div>
 			</div>
 
 			<span class="govuk-caption-m">Search area</span>

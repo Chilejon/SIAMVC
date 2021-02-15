@@ -20,6 +20,7 @@ namespace SIAMVC.Services
 		private const string GetAllPhoto = "https://interactive.stockport.gov.uk/siarestapi/v1/GetPhotosByTerm";
 		private const string GetPhotoByTermArea = "https://interactive.stockport.gov.uk/siarestapi/v1/GetPhotosByTermArea";
 		private const string GetPhotoByTitleArea = "https://interactive.stockport.gov.uk/siarestapi/v1/GetPhotosByTitleArea";
+		private const string GetPhotosByID = "https://interactive.stockport.gov.uk/siarestapi/v1/GetPhotosByID";
 
 		private string urlParameters = "?term=";
 		private string idParameters = "?id=";
@@ -48,6 +49,11 @@ namespace SIAMVC.Services
 					client.BaseAddress = new Uri(GetAllPhoto);
 					response = client.GetAsync(urlParameters + indexViewModel.SearchString).Result;
 				}
+				else if (indexViewModel.SearchOption == "IDNumber")
+				{
+					client.BaseAddress = new Uri(GetPhotosByID);
+					response = client.GetAsync(idParameters + indexViewModel.SearchString.Trim()).Result;
+				}
 			}
 			else
 			{
@@ -61,9 +67,14 @@ namespace SIAMVC.Services
 					client.BaseAddress = new Uri(GetPhotoByTermArea);
 					response = client.GetAsync(urlParameters + indexViewModel.SearchString + areaParameters + indexViewModel.SearchArea).Result;
 				}
+				else if (indexViewModel.SearchOption == "IDNumber")
+				{
+					client.BaseAddress = new Uri(GetPhotosByID);
+					response = client.GetAsync(idParameters + indexViewModel.SearchString.Trim()).Result;
+				}
 			}
 
-			if (response.IsSuccessStatusCode)
+			if (response.IsSuccessStatusCode && indexViewModel.SearchOption != "IDNumber")
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
 				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
@@ -86,6 +97,27 @@ namespace SIAMVC.Services
 				{
 					indexViewModel.Message = "No search results for : " + indexViewModel.SearchString;
 				}
+				return indexViewModel;
+			}
+			if (response.IsSuccessStatusCode && indexViewModel.SearchOption == "IDNumber")
+			{
+				var listPhotographs = response.Content.ReadAsStringAsync().Result;
+				var photograph = JsonConvert.DeserializeObject<Photograph>(listPhotographs);
+				List<Photograph> photographs = new List<Photograph>();
+				photographs.Add(photograph);
+				photographs[0].url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
+				photographs[0].SearchResults = photographs;
+				photographs[0].SearchString = indexViewModel.SearchString.Trim();
+				photographs[0].AccessionNo = photograph.AccessionNo.Trim();
+				photographs[0].SearchOption = indexViewModel.SearchOption;
+				photographs[0].SearchArea = indexViewModel.SearchArea;
+				indexViewModel.Photographs = photographs;
+				indexViewModel.Message = string.Empty;
+			}
+
+			if (!response.IsSuccessStatusCode)
+			{
+				indexViewModel.Message = "No search results for : " + indexViewModel.SearchString;
 				return indexViewModel;
 			}
 			else
