@@ -78,6 +78,10 @@ fieldset.input-memorable-date, fieldset.input-time {
     height: 200px;
 }
 
+.imgThumbnail {
+    width: 200px;
+}
+
 @media only screen and (max-width: 767px) {
     ol .indented-list {
         margin-left: 25px;
@@ -171,3 +175,5 @@ fieldset.input-memorable-date, fieldset.input-time {
         padding-right: 0px;
     }
 }
+
+

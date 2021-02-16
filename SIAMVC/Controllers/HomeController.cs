@@ -57,10 +57,16 @@ namespace SIAMVC.Controllers
 				}
 
 			searchResults.SearchString = indexViewModel.SearchString;
-			searchResults.SearchArea = "Bredbury";
+			//searchResults.SearchArea = "Bredbury";
 			searchResults.SearchOption = indexViewModel.SearchOption;
 
-			return View(searchResults);
+			if (searchResults.Photographs.Count != 1)
+			{
+				return View(searchResults);
+			}
+			return RedirectToAction("Photograph", new { accessionno = searchResults.Photographs[0].AccessionNo, searchString = searchResults.SearchString, searchOption = searchResults.SearchOption, searchArea = searchResults.SearchArea });
+
+
 		}
 
 		[HttpGet]
@@ -91,6 +97,7 @@ namespace SIAMVC.Controllers
 
 			//return RedirectToAction("Index", searchResults);
 			return View(searchResults);
+			//return RedirectToAction("Index", new { IndexViewModel = searchResults });
 		}
 
 		[HttpGet]
@@ -163,7 +170,7 @@ namespace SIAMVC.Controllers
 
 		[HttpGet]
 		[Route("ClassSearch")]
-		public async Task<IActionResult> ClassSearch(string classNo)
+		public async Task<IActionResult> ClassSearch(string classNo, string searchString, string searchOption, string searchArea)
 		{
 			var cacheKey = classNo.Trim();
 
@@ -181,7 +188,14 @@ namespace SIAMVC.Controllers
 				_memoryCache.Set(cacheKey, photographs, cachExpirationOptions);
 			}
 
-			return View(photographs);
+			IndexViewModel searchResults = new IndexViewModel();
+			searchResults.Photographs = photographs;
+			searchResults.SearchString = searchString;
+			searchResults.SearchArea = searchArea;
+			searchResults.SearchOption = searchOption;
+			return View(searchResults);
+
+			//return View(photographs);
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

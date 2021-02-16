@@ -148,7 +148,7 @@ namespace SIAMVC.Services
 				{
 					foreach (var photograph in photographs)
 					{
-						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/" + photograph.AccessionNo.Trim() + ".jpg";
+						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
 						photograph.SearchResults = photographs;
 					}
 
@@ -184,7 +184,7 @@ namespace SIAMVC.Services
 				{
 					foreach (var photograph in photographs)
 					{
-						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/" + photograph.AccessionNo.Trim() + ".jpg";
+						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
 					}
 				}
 				else

@@ -37,7 +37,7 @@
 		<strong>@Html.DisplayFor(model => model.Classno)</strong>
 
 <p class="govuk-heading-s">
-		<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno })">
+		<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno, searchOption = Model.SearchOption, searchArea = Model.SearchArea, searchString = Model.SearchString })">
 			<span>More like this</span>
 		</a>
 	</p>

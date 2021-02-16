@@ -16,36 +16,31 @@
 			@Html.TextBoxFor(m => m.SearchString, new { @class = "govuk-input" })
 			@Html.ValidationMessageFor(m => m.SearchString, String.Empty,
 		   new { @class = "smbc-error-message" })
-			<span class="govuk-caption-l">Search option</span>
-			<div class="govuk-radios" data-module="govuk-radios">
-				<div class="govuk-radios__item">
-					<input class="govuk-radios__input"
-						   type="radio"
-						   value="Title"
-						   name="SearchOption"
-						   id="SearchOption-0"
-						   checked="checked" />
 
-					<label class="govuk-label govuk-radios__label"
-						   for="SearchOption-0">
+			<span class="govuk-caption-m">Search option</span>
+			<div class="govuk-radios govuk-radios--inline">
+				<div class="govuk-radios__item">
+					@Html.RadioButtonFor(i => i.SearchOption, "Title", new { @class = "govuk-radios__input" })
+					<label class="govuk-label govuk-radios__label" for="changed-name">
 						Title
 					</label>
 				</div>
 				<div class="govuk-radios__item">
-					<input class="govuk-radios__input"
-						   type="radio"
-						   value="All"
-						   name="SearchOption"
-						   id="SearchOption-1" />
-
-					<label class="govuk-label govuk-radios__label"
-						   for="SearchOption-1">
+					@Html.RadioButtonFor(i => i.SearchOption, "All", new { @class = "govuk-radios__input" })
+					<label class="govuk-label govuk-radios__label" for="changed-name-2">
 						All
 					</label>
 				</div>
+				<div class="govuk-radios__item">
+					@Html.RadioButtonFor(i => i.SearchOption, "IDNumber", new { @class = "govuk-radios__input" })
+					<label class="govuk-label govuk-radios__label" for="changed-name-3">
+						ID number
+					</label>
+				</div>
 			</div>
-			<span class="govuk-caption-l">Search area</span>
-			<select class="govuk-select " id="SearchArea" name="SearchArea">
+
+			<span class="govuk-caption-m">Search area</span>
+			<select class="govuk-select" id="SearchArea" name="SearchArea">
 				<option value="All">All</option>
 				<option value="1">Adswood</option>
 				<option value="2">Bosden</option>
@@ -102,9 +97,7 @@
 				<option value="53">Woodsmoor</option>
 				<option value="54">Cheshire/Other</option>
 			</select>
-
-
-			<br />
+			<br /><br />
 			<input type="submit" value="Search" class="govuk-button" />
 		</div>
 	}
@@ -120,22 +113,16 @@
 		{
 			<span class="govuk-caption-l">@Model.Photographs.Count images found</span>
 		}
-
-		int count = 0;
+		<hr />
 
 		foreach (var photograph in Model.Photographs)
 		{
 			<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim(), searchArea = photograph.SearchArea.Trim() })">
-				<img src=@photograph.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
+				<img src=@photograph.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" style="width:200px" />
+				<p class="govuk-caption-m" style="margin-top:2px">@photograph.Title</p>
 			</a>
-
-			<p class="govuk-heading-s">
-				@photograph.Title <a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim() })">
-					<span>View</span>
-				</a>
-			</p>
-			count = count + 1;
-			<br />
 		}
 	}
 </div>
+
+

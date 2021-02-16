@@ -1,42 +1,114 @@
-﻿@model IEnumerable<SIAMVC.Models.Photograph>
+﻿@model SIAMVC.Models.IndexViewModel
 
 @{
-    ViewData["Title"] = "SearchClassNo";
+	var cssClass = "govuk-heading-l";
+	var baseCssClasses = "govuk-input";
+	ViewData["Title"] = "Home Page";
+
 }
 
-<h1>SearchClassNo</h1>
+<div class="text-center">
+	<h1 class="@cssClass">Stockport image archive</h1>
+	@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+	{
+		<div class="govuk-form-group">
+
+			<span class="govuk-caption-l">Search</span>
+			@Html.TextBoxFor(m => m.SearchString, new { @class = "govuk-input" })
+			@Html.ValidationMessageFor(m => m.SearchString, String.Empty,
+		   new { @class = "smbc-error-message" })
+
+			<span class="govuk-caption-m">Search option</span>
+			<div class="govuk-radios govuk-radios--inline">
+				<div class="govuk-radios__item">
+					@Html.RadioButtonFor(i => i.SearchOption, "Title", new { @class = "govuk-radios__input" })
+					<label class="govuk-label govuk-radios__label" for="changed-name">
+						Title
+					</label>
+				</div>
+				<div class="govuk-radios__item">
+					@Html.RadioButtonFor(i => i.SearchOption, "All", new { @class = "govuk-radios__input" })
+					<label class="govuk-label govuk-radios__label" for="changed-name-2">
+						All
+					</label>
+				</div>
+				<div class="govuk-radios__item">
+					@Html.RadioButtonFor(i => i.SearchOption, "IDNumber", new { @class = "govuk-radios__input" })
+					<label class="govuk-label govuk-radios__label" for="changed-name-3">
+						ID number
+					</label>
+				</div>
+			</div>
+
+			<span class="govuk-caption-m">Search area</span>
+			<select class="govuk-select" id="SearchArea" name="SearchArea">
+				<option value="All">All</option>
+				<option value="1">Adswood</option>
+				<option value="2">Bosden</option>
+				<option value="3">Bramhall</option>
+				<option value="4">Bredbury</option>
+				<option value="5">Brinksway</option>
+				<option value="6">Brinnington</option>
+				<option value="7">Cale Green</option>
+				<option value="8">Cheadle</option>
+				<option value="9">Cheadle Heath</option>
+				<option value="10">Cheadle Hulme</option>
+				<option value="11">Compstall</option>
+				<option value="12">Davenport</option>
+				<option value="13">Disley</option>
+				<option value="14">Edgeley</option>
+				<option value="15">Gatley</option>
+				<option value="16">Gee Cross</option>
+				<option value="17">Great Moor</option>
+				<option value="18">Greave</option>
+				<option value="19">Handforth</option>
+				<option value="20">Hatherlow</option>
+				<option value="21">Hawk Green</option>
+				<option value="22">Hazel Grove</option>
+				<option value="23">Heald Green</option>
+				<option value="24">Heaton Chapel</option>
+				<option value="25">Heaton Mersey</option>
+				<option value="26">Heaton Moor</option>
+				<option value="27">Heaton Norris</option>
+				<option value="28">Heaviley</option>
+				<option value="29">High Lane</option>
+				<option value="30">Lancashire Hill</option>
+				<option value="31">Little Moor</option>
+				<option value="32">Ludworth</option>
+				<option value="33">Lyme</option>
+				<option value="34">Marple</option>
+				<option value="35">Marple Bridge</option>
+				<option value="36">Mellor</option>
+				<option value="37">Norbury</option>
+				<option value="38">Norris Bank</option>
+				<option value="39">Offerton</option>
+				<option value="40">Portwood</option>
+				<option value="41">Poynton</option>
+				<option value="42">Reddish</option>
+				<option value="43">Romiley</option>
+				<option value="44">Rose Hill</option>
+				<option value="47">Strines</option>
+				<option value="46">Torkington</option>
+				<option value="45">Town Centre</option>
+				<option value="48">Werneth</option>
+				<option value="49">Windlehurst</option>
+				<option value="50">Woodbank</option>
+				<option value="51">Woodford</option>
+				<option value="52">Woodley</option>
+				<option value="53">Woodsmoor</option>
+				<option value="54">Cheshire/Other</option>
+			</select>
+			<br /><br />
+			<input type="submit" value="Search" class="govuk-button" />
+		</div>
+	}
 
 
-
-<table class="table">
-    <thead>
-        <tr>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.url)
-            </th>
-
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-
-
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-
-			<td>
-				<img src=@item.url style="width:200px" onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
-			</td>
-
-        </tr>
-}
-    </tbody>
-</table>
+	@foreach (var photograph in Model.Photographs)
+	{
+		<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim() })">
+			<img src=@photograph.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" style="width:200px" />
+			<p class="govuk-caption-m" style="margin-top:2px">@photograph.Title</p>
+		</a>
+	}
+</div>
