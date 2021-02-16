@@ -80,19 +80,26 @@ namespace SIAMVC.Services
 				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
 				if (photographs != null)
 				{
-					foreach (var photograph in photographs)
+					if (photographs.Count > 0)
 					{
-						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
-						photograph.SearchResults = photographs;
-						photograph.SearchString = indexViewModel.SearchString.Trim();
-						photograph.AccessionNo = photograph.AccessionNo.Trim();
-						photograph.SearchOption = indexViewModel.SearchOption;
-						photograph.SearchArea = indexViewModel.SearchArea;
-					}
+						foreach (var photograph in photographs)
+						{
+							photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
+							photograph.SearchResults = photographs;
+							photograph.SearchString = indexViewModel.SearchString.Trim();
+							photograph.AccessionNo = photograph.AccessionNo.Trim();
+							photograph.SearchOption = indexViewModel.SearchOption;
+							photograph.SearchArea = indexViewModel.SearchArea;
+						}
 
-					indexViewModel.Photographs = photographs;
-					indexViewModel.Message = string.Empty;
-				}
+						indexViewModel.Photographs = photographs;
+						indexViewModel.Message = string.Empty;
+					}
+					else
+					{
+						indexViewModel.Message = "No search results for : " + indexViewModel.SearchString;
+					}
+					}
 				else
 				{
 					indexViewModel.Message = "No search results for : " + indexViewModel.SearchString;

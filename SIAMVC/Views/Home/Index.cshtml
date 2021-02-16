@@ -8,7 +8,8 @@
 
 <div class="text-center">
 	<h1 class="@cssClass">Stockport image archive</h1>
-	@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+	<partial name="SearchForm" model="Model" />
+	@*@using (Html.BeginForm("Index", "Home", FormMethod.Post))
 	{
 		<div class="govuk-form-group">
 
@@ -100,7 +101,7 @@
 			<br /><br />
 			<input type="submit" value="Search" class="govuk-button" />
 		</div>
-	}
+	}*@
 
 	@if (!string.IsNullOrEmpty(Model.Message))
 	{
@@ -113,7 +114,7 @@
 		{
 			<span class="govuk-caption-l">@Model.Photographs.Count images found</span>
 		}
-		<hr />
+
 
 		foreach (var photograph in Model.Photographs)
 		{
