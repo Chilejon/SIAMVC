@@ -69,8 +69,45 @@ namespace SIAMVC.Controllers
 
 		}
 
+		[HttpPost]
+		[Route("IndexHome")]
+		public async Task<IActionResult> Index(string searchString, string searchOption, string searchArea)
+		{
+			IndexViewModel indexViewModel = new IndexViewModel();
+			indexViewModel.SearchString = searchString;
+			indexViewModel.SearchOption = searchOption;
+			indexViewModel.SearchArea = searchArea;
+
+			var cacheKey = indexViewModel.SearchString.Trim() + indexViewModel.SearchOption.Trim() + indexViewModel.SearchArea.Trim();
+
+			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
+			{
+				searchResults = await search.SearchPhotographsByTitle(indexViewModel);
+
+				var cachExpirationOptions = new MemoryCacheEntryOptions
+				{
+					AbsoluteExpiration = DateTime.Now.AddHours(6),
+					Priority = CacheItemPriority.Normal,
+					SlidingExpiration = TimeSpan.FromMinutes(5)
+				};
+
+				_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
+			}
+
+			searchResults.SearchString = indexViewModel.SearchString;
+			//searchResults.SearchArea = "Bredbury";
+			searchResults.SearchOption = indexViewModel.SearchOption;
+
+			if (searchResults.Photographs.Count != 1)
+			{
+				return View(searchResults);
+			}
+			return RedirectToAction("Photograph", new { accessionno = searchResults.Photographs[0].AccessionNo, searchString = searchResults.SearchString, searchOption = searchResults.SearchOption, searchArea = searchResults.SearchArea });
+
+
+		}
+
 		[HttpGet]
-		[Route("ShowResults")]
 		public async Task<IActionResult> ShowResults(string searchString, string searchOption, string searchArea)
 		{
 			if (!ModelState.IsValid)
@@ -96,7 +133,7 @@ namespace SIAMVC.Controllers
 			}
 
 			//return RedirectToAction("Index", searchResults);
-			return View(searchResults);
+			return View("Index", searchResults);
 			//return RedirectToAction("Index", new { IndexViewModel = searchResults });
 		}
 
