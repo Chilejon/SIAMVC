@@ -146,7 +146,7 @@ namespace SIAMVC.Services
 
 			client.BaseAddress = new Uri(SearchURL);
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			HttpResponseMessage response = client.GetAsync(urlParameters + indexViewModel.SearchString).Result;
+			HttpResponseMessage response = client.GetAsync(urlParameters + searchString).Result;
 			if (response.IsSuccessStatusCode)
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
@@ -157,9 +157,14 @@ namespace SIAMVC.Services
 					{
 						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
 						photograph.SearchResults = photographs;
+						photograph.SearchString = searchString;
+						photograph.SearchArea = searchArea;
+						photograph.SearchOption = searchOptions;
 					}
 
 					indexViewModel.Photographs = photographs;
+					indexViewModel.SearchArea = searchArea;
+					indexViewModel.SearchOption = searchOptions;
 					indexViewModel.Message = string.Empty;
 				}
 				else
@@ -205,6 +210,48 @@ namespace SIAMVC.Services
 			}
 			client.Dispose();
 			return allPhotographs;
+		}
+
+		public async Task<IndexViewModel> GetPhotographsByClassNo2(string classNo)
+		{
+
+			IndexViewModel indexViewModel = new IndexViewModel();
+			client.BaseAddress = new Uri(GetClassNo);
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+			HttpResponseMessage response = client.GetAsync(idParameters + classNo).Result;
+			List<Photograph> allPhotographs = new List<Photograph>();
+
+			if (response.IsSuccessStatusCode)
+			{
+				var listPhotographs = response.Content.ReadAsStringAsync().Result;
+				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
+				if (photographs != null)
+				{
+					foreach (var photograph in photographs)
+					{
+						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
+						photograph.SearchOption = "class";
+						photograph.SearchString = "class";
+						photograph.SearchArea = "all";
+					}
+				}
+				else
+				{
+				}
+				allPhotographs = photographs;
+			}
+			else
+			{
+				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+			}
+			client.Dispose();
+
+			indexViewModel.Photographs = allPhotographs;
+			indexViewModel.SearchOption = "class";
+			indexViewModel.SearchString = "class";
+			indexViewModel.SearchArea = "all";
+
+			return indexViewModel;
 		}
 
 		private string urlcheckImage(Photograph photograph)

@@ -108,7 +108,7 @@ namespace SIAMVC.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> ShowResults(string searchString, string searchOption, string searchArea)
+		public async Task<IActionResult> ShowResults(string searchString, string searchOption, string searchArea, string classno)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -116,11 +116,18 @@ namespace SIAMVC.Controllers
 				return View(indexViewModel);
 			}
 
-			var cacheKey = searchString.Trim() + searchOption + searchArea;
+			var cacheKey = searchString.Trim() + searchOption + searchArea + classno.Trim();
 
 			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 			{
-				searchResults = await search.SearchPhotographsByTitle(searchString, searchOption, searchArea);
+				if (searchOption != "class")
+				{
+					searchResults = await search.SearchPhotographsByTitle(searchString, searchOption, searchArea);
+				}
+				else
+				{
+					searchResults = await search.GetPhotographsByClassNo2(classno);
+				}
 
 				var cachExpirationOptions = new MemoryCacheEntryOptions
 				{
@@ -139,9 +146,9 @@ namespace SIAMVC.Controllers
 
 		[HttpGet]
 		[Route("Next")]
-		public async Task<IActionResult> Next(string searchString, string accessionNo, string direction, string searchOption, string searchArea)
+		public async Task<IActionResult> Next(string searchString, string accessionNo, string direction, string searchOption, string searchArea, string classNo)
 		{
-			var cacheKey = searchString.Trim() + searchOption + searchArea;
+			var cacheKey = searchString.Trim() + searchOption + searchArea + classNo.Trim();
 
 			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 			{
@@ -160,7 +167,7 @@ namespace SIAMVC.Controllers
 			Photograph nextPhotograph = searchResults.Photographs.FirstOrDefault();
 			try
 			{
-				Photograph currentPhotograph = searchResults.Photographs.Where(x => x.AccessionNo == accessionNo.Trim()).FirstOrDefault();
+				Photograph currentPhotograph = searchResults.Photographs.Where(x => x.AccessionNo.Trim() == accessionNo.Trim()).FirstOrDefault();
 				int indexOfCurrentImage = searchResults.Photographs.IndexOf(currentPhotograph);
 
 				if (direction == "next")
