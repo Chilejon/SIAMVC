@@ -35,16 +35,19 @@
 
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Classno)</dt>
-		<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.Classno)</dd>
+		<dd class="govuk-summary-list__value">
+			@Html.DisplayFor(model => model.Classno)
+				@Html.DisplayFor(model => model.AccessionNo)
+				<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno, searchOption = Model.Classno.Trim(), searchArea = Model.SearchArea, searchString = Model.SearchString })">
+					More like this
+				</a>
+			</dd>
 	</div>
 
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.AccessionNo)</dt>
 		<dd class="govuk-summary-list__value">
-			@Html.DisplayFor(model => model.AccessionNo)
-			<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno, searchOption = Model.Classno.Trim(), searchArea = Model.SearchArea, searchString = Model.SearchString })">
-				More like this
-			</a>
+			
 		</dd>
 
 	</div>

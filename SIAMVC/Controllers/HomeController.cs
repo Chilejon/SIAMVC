@@ -73,6 +73,11 @@ namespace SIAMVC.Controllers
 		[Route("IndexHome")]
 		public async Task<IActionResult> Index(string searchString, string searchOption, string searchArea)
 		{
+			if (string.IsNullOrEmpty(searchOption))
+			{
+				searchOption = "Title";
+			}
+
 			IndexViewModel indexViewModel = new IndexViewModel();
 			indexViewModel.SearchString = searchString;
 			indexViewModel.SearchOption = searchOption;
@@ -216,11 +221,14 @@ namespace SIAMVC.Controllers
 		[Route("ClassSearch")]
 		public async Task<IActionResult> ClassSearch(string classNo, string searchString, string searchOption, string searchArea)
 		{
-			var cacheKey = classNo.Trim();
 
-			if (!_memoryCache.TryGetValue(cacheKey, out List<Photograph> photographs))
+			var cacheKey = searchString.Trim() + searchOption + searchArea + classNo.Trim();
+			//var cacheKey = classNo.Trim();
+
+			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults)) //out List<Photograph> photographs
 			{
-				photographs = await search.GetPhotographsByClassNo(classNo.ToString());
+				//photographs = await search.GetPhotographsByClassNo(classNo.ToString());
+				searchResults = await search.GetPhotographsByClassNo2(classNo);
 
 				var cachExpirationOptions = new MemoryCacheEntryOptions
 				{
@@ -229,11 +237,11 @@ namespace SIAMVC.Controllers
 					SlidingExpiration = TimeSpan.FromMinutes(5)
 				};
 
-				_memoryCache.Set(cacheKey, photographs, cachExpirationOptions);
+				_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
 			}
 
-			IndexViewModel searchResults = new IndexViewModel();
-			searchResults.Photographs = photographs;
+			//IndexViewModel searchResults = new IndexViewModel();
+			//searchResults.Photographs = photographs;
 			searchResults.SearchString = searchString;
 			searchResults.SearchArea = searchArea;
 			searchResults.SearchOption = searchOption;
