@@ -7,15 +7,29 @@
 
 }
 
-	<div class="text-center">
-		<h1 class="@cssClass">Stockport image archive</h1>
-		<partial name="SearchForm" model="Model" />
+<div class="text-center">
+	<h1 class="@cssClass">Stockport image archive</h1>
+	<partial name="SearchForm" model="Model" />
+
+	@if (!string.IsNullOrEmpty(Model.Message))
+	{
+		<span class="govuk-caption-l">@Html.DisplayFor(model => model.Message)</span>
+	}
+
+	@if (Model.Photographs != null)
+	{
+		@if (Model.Photographs.Count > 0)
+		{
+			<p class="govuk-caption-l">@Model.Photographs.Count images found</p>
+		}
 
 		@foreach (var photograph in Model.Photographs)
 		{
-			<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim() })">
-				<img src=@photograph.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
-				<p class="govuk-caption-m" style="margin-top:2px">@photograph.Title</p>
-			</a>
+			<p>
+				<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim() })" class="govuk-link">
+					<img src=@photograph.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />@photograph.Title
+				</a>
+			</p>
 		}
-	</div>
+	}
+</div>

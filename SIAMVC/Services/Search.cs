@@ -203,6 +203,7 @@ namespace SIAMVC.Services
 				{
 				}
 				allPhotographs = photographs;
+				
 			}
 			else
 			{
@@ -250,6 +251,7 @@ namespace SIAMVC.Services
 			indexViewModel.SearchOption = "class";
 			indexViewModel.SearchString = "class";
 			indexViewModel.SearchArea = "all";
+			indexViewModel.Message = "Class No. : " + classNo;
 
 			return indexViewModel;
 		}

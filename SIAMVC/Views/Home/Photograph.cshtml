@@ -5,26 +5,22 @@
 	ViewData["Title"] = Model.Title;
 }
 
+	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
+		<span>< Previous</span>
+	</a>
+	-
+	<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString, searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno})" class="govuk-link">
+		<span>Search results</span>
+	</a>
+	-
+	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
+		<span>Next ></span>
+	</a>
 
-	<p class="govuk-heading-m">
-		<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })">
-			<span>< Previous</span>
-		</a>
-		-
-		<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString, searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno})">
-			<span>Search results</span>
-		</a>
-		-
-		<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })">
-			<span>Next ></span>
-		</a>
-	</p>
 
 <h1 class="@cssClass">@Model.Title</h1>
 
-
-
-<img src=@Model.url onError="this.onerror=null;this.src='..assets/images/notfound.jpg';"/>
+<img src=@Model.url onError="this.onerror=null;this.src='..assets/images/notfound.jpg';" />
 <p class="govuk-caption-l"><strong>@Model.Description</strong></p>
 
 <dl class="govuk-summary-list govuk-!-margin-bottom-9">
@@ -32,26 +28,16 @@
 		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.AccessionNo)</dt>
 		<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.AccessionNo)</dd>
 	</div>
-
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Classno)</dt>
 		<dd class="govuk-summary-list__value">
 			@Html.DisplayFor(model => model.Classno)
-				@Html.DisplayFor(model => model.AccessionNo)
-				<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno, searchOption = Model.Classno.Trim(), searchArea = Model.SearchArea, searchString = Model.SearchString })">
-					More like this
-				</a>
-			</dd>
-	</div>
 
-	<div class="govuk-summary-list__row">
-		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.AccessionNo)</dt>
-		<dd class="govuk-summary-list__value">
-			
+			<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno, searchOption = Model.Classno.Trim(), searchArea = Model.SearchArea, searchString = Model.SearchString })" class="govuk-link">
+				Show more like this
+			</a>
 		</dd>
-
 	</div>
-
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Photographer)</dt>
 		<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.Photographer)</dd>
@@ -73,7 +59,3 @@
 		<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.Availabletobuy)</dd>
 	</div>
 </dl>
-
-
-
-	<p class="govuk-heading-s"><a asp-action="Index" class="govuk-heading-m">Home</a></p>

@@ -26,8 +26,8 @@
 			foreach (var photograph in Model.Photographs)
 			{
 				<a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim(), searchArea = photograph.SearchArea.Trim() })">
-					<img src=@photograph.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';"/>
-					<p class="govuk-caption-m" style="margin-top:2px">@photograph.Title</p>
+					<img style="float:left" src=@photograph.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';"/>
+					<span class="govuk-caption-m" style="margin-top:2px; float:left">@photograph.Title</span>
 				</a>
 			}
 		}
