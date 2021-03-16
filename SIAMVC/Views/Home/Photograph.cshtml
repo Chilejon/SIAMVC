@@ -5,18 +5,19 @@
 	ViewData["Title"] = Model.Title;
 }
 
-	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
-		<span>< Previous</span>
-	</a>
-	-
-	<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString, searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno})" class="govuk-link">
-		<span>Search results</span>
-	</a>
-	-
-	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
-		<span>Next ></span>
-	</a>
-
+	<div style="text-align:center">
+		<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
+			<span>< Previous</span>
+		</a>
+		-
+		<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString, searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno})" class="govuk-link">
+			<span>Search results</span>
+		</a>
+		-
+		<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo, direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
+			<span>Next ></span>
+		</a>
+	</div>
 
 <h1 class="@cssClass">@Model.Title</h1>
 
@@ -32,7 +33,6 @@
 		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Classno)</dt>
 		<dd class="govuk-summary-list__value">
 			@Html.DisplayFor(model => model.Classno)
-
 			<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno, searchOption = Model.Classno.Trim(), searchArea = Model.SearchArea, searchString = Model.SearchString })" class="govuk-link">
 				Show more like this
 			</a>
