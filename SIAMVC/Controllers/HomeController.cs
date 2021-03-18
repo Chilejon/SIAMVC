@@ -192,7 +192,7 @@ namespace SIAMVC.Controllers
 					nextPhotograph = searchResults.Photographs.Last();
 				}
 			}
-			return RedirectToAction("Photograph", new { accessionno = nextPhotograph.AccessionNo, searchString = searchString, searchOption = searchOption, searchArea = searchArea });
+			return RedirectToAction("Photograph", new { accessionno = nextPhotograph.AccessionNo.Trim(), searchString = searchString, searchOption = searchOption, searchArea = searchArea });
 		}
 
 		[HttpGet]

@@ -77,12 +77,11 @@ namespace SIAMVC.Services
 			if (response.IsSuccessStatusCode && indexViewModel.SearchOption != "IDNumber")
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
-				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs).GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList();
-
-				//var photosNoDup = photographs
-
+				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
 				if (photographs != null)
 				{
+					photographs = photographs.GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList();
+
 					if (photographs.Count > 0)
 					{
 						foreach (var photograph in photographs)
@@ -146,18 +145,64 @@ namespace SIAMVC.Services
 				indexViewModel.Message = "Search term is too short : " + indexViewModel.SearchString;
 				return indexViewModel;
 			}
+			
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+			HttpResponseMessage response = new HttpResponseMessage();
 
 			client.BaseAddress = new Uri(SearchURL);
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			HttpResponseMessage response = client.GetAsync(urlParameters + searchString).Result;
+
+
+			if (searchArea == "All")
+			{
+				if (searchOptions == "Title")
+				{
+					client.BaseAddress = new Uri(SearchURL);
+					response = client.GetAsync(urlParameters + searchString.Trim()).Result;
+				}
+				else if (searchOptions == "All")
+				{
+					client.BaseAddress = new Uri(GetAllPhoto);
+					response = client.GetAsync(urlParameters + searchString.Trim()).Result;
+				}
+				else if (searchOptions == "IDNumber")
+				{
+					client.BaseAddress = new Uri(GetPhotosByID);
+					response = client.GetAsync(idParameters + searchString.Trim()).Result;
+				}
+			}
+			else
+			{
+				if (searchOptions == "Title")
+				{
+					client.BaseAddress = new Uri(GetPhotoByTitleArea);
+					response = client.GetAsync(urlParameters + searchString + areaParameters + searchArea).Result;
+				}
+				else if (searchOptions == "All")
+				{
+					client.BaseAddress = new Uri(GetPhotoByTermArea);
+					response = client.GetAsync(urlParameters + searchString + areaParameters + searchArea).Result;
+				}
+				else if (searchOptions == "IDNumber")
+				{
+					client.BaseAddress = new Uri(GetPhotosByID);
+					response = client.GetAsync(idParameters + searchString.Trim()).Result;
+				}
+			}
+
+
+
+			//HttpResponseMessage response = client.GetAsync(urlParameters + searchString).Result;
+
+
+
 			if (response.IsSuccessStatusCode)
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
-				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs).GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList();
-
+				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
 
 				if (photographs != null)
 				{
+					photographs = photographs.GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList();
 					foreach (var photograph in photographs)
 					{
 						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
@@ -196,9 +241,10 @@ namespace SIAMVC.Services
 			if (response.IsSuccessStatusCode)
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
-				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs).GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList(); ;
+				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
 				if (photographs != null)
 				{
+					photographs = photographs.GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList();
 					foreach (var photograph in photographs)
 					{
 						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
@@ -230,9 +276,10 @@ namespace SIAMVC.Services
 			if (response.IsSuccessStatusCode)
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
-				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs).GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList(); ;
+				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
 				if (photographs != null)
 				{
+					photographs = photographs.GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList();
 					foreach (var photograph in photographs)
 					{
 						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
