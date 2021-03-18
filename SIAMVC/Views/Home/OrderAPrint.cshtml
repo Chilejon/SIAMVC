@@ -1,0 +1,43 @@
+﻿@model SIAMVC.Controllers.OrderAPrintViewModel
+
+	<div class="govuk-form-group">
+		<h2 class="govuk-caption-l">Print Ordering Service</h2>
+		<h3 class="govuk-caption-m">
+			You can now order images from the Stockport Image Archive and have a high quality print of your own.
+		</h3>
+		<p class="govuk-body">
+			You can order high quality print copies of many photographs from the Stockport Image Archive.
+		</p>
+		<p class="govuk-body">
+			Standard prints are sized approximately 8”x6” or 12”x8” and cost £6.50 or £8.50. (Other sizes are available, please contact the Local Heritage Library directly to discuss options).
+		</p>
+		<p class="govuk-body">
+			We recommend that orders are collected in person. Alternatively, please add £1.00 for postage and packing. Please print a copy of the order form (PDF 90Kb)
+		</p>
+		<p class="govuk-body">
+			Please complete the order form quoting the image references.
+
+		<p class="govuk-body">
+			<strong>@Html.DisplayNameFor(model => model.accessionNo) : </strong>
+			<strong>@Html.DisplayFor(model => model.accessionNo)</strong> and
+			<strong>@Html.DisplayNameFor(model => model.classNo) : </strong>
+			<strong>@Html.DisplayFor(model => model.classNo)</strong>
+			and post with a cheque for the relevant amount to:
+		</p>
+
+		<p class="govuk-body">
+			Stockport Local Heritage Library,<br />
+			Stockport Central Library,<br />
+			Wellington Road South,<br />
+			Stockport<br />
+			SK1 3RS<br />
+		</p>
+
+		<p class="govuk-body">
+			Please note images ordered here are for PRIVATE USE ONLY. If copies are required for other purposes (e.g. reproduction in publications, the media or exhibitions, display in commercial premises), please contact us.
+		</p>
+
+		<p class="govuk-body">
+			We will process your order, normally within 14 days, and contact you to arrange collection or delivery. Postage is Royal Mail 2nd class in a card envelope & subject to Royal Mail terms & conditions.
+		</p>
+	</div>

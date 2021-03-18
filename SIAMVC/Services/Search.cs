@@ -77,7 +77,10 @@ namespace SIAMVC.Services
 			if (response.IsSuccessStatusCode && indexViewModel.SearchOption != "IDNumber")
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
-				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
+				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs).GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList();
+
+				//var photosNoDup = photographs
+
 				if (photographs != null)
 				{
 					if (photographs.Count > 0)
@@ -150,7 +153,9 @@ namespace SIAMVC.Services
 			if (response.IsSuccessStatusCode)
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
-				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
+				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs).GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList();
+
+
 				if (photographs != null)
 				{
 					foreach (var photograph in photographs)
@@ -191,7 +196,7 @@ namespace SIAMVC.Services
 			if (response.IsSuccessStatusCode)
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
-				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
+				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs).GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList(); ;
 				if (photographs != null)
 				{
 					foreach (var photograph in photographs)
@@ -225,7 +230,7 @@ namespace SIAMVC.Services
 			if (response.IsSuccessStatusCode)
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
-				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
+				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs).GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList(); ;
 				if (photographs != null)
 				{
 					foreach (var photograph in photographs)
@@ -270,7 +275,7 @@ namespace SIAMVC.Services
 			}
 			catch (Exception ex)
 			{
-				return "../assets/images/NotFound.jpg";
+				return "./assets/images/NotFound.jpg";
 			}
 		}
 

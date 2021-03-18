@@ -250,6 +250,17 @@ namespace SIAMVC.Controllers
 			//return View(photographs);
 		}
 
+		[HttpGet]
+		[Route("OrderAPrint")]
+		public async Task<IActionResult> OrderAPrint(string classNo, string accessionNo)
+		{
+			OrderAPrintViewModel viewModel = new OrderAPrintViewModel();
+			viewModel.accessionNo = accessionNo;
+			viewModel.classNo = classNo;
+
+			return View(viewModel);
+		}
+
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
