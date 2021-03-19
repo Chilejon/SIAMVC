@@ -18,17 +18,17 @@
 
 		@if (Model.Photographs != null)
 		{
-			@if (Model.Photographs.Count > 0)
+			@*@if (Model.Photographs.Count > 0)
 			{
-				<p class="govuk-caption-l">@Model.Photographs.Count images found</p>
-			}
+				<p class="govuk-caption-l" id="ImageCount">@Model.Photographs.Count images found</p>
+			}*@
 
 			<dl class="govuk-summary-list govuk-!-margin-bottom-9">
 				@foreach (var photograph in Model.Photographs)
 				{
 
 					<div class="govuk-summary-list__row">
-						<dt class="govuk-summary-list__key"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim() })" class="govuk-link"><img src=@photograph.url onError="this.onerror=null;this.src='./assets/images/notfound.jpg';" /></a></dt>
+						<dt class="govuk-summary-list__key"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim() })" class="govuk-link"><img src=@photograph.url onError="this.onerror=null;this.src='./assets/images/notfound.jpg';" onload="loadImage()" class="Thumbnail" /></a></dt>
 						<dd class="govuk-summary-list__value"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim() })" class="govuk-link">@photograph.Title</a></dd>
 					</div>
 				}

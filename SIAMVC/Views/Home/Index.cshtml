@@ -17,10 +17,10 @@
 
 	@if (Model.Photographs != null)
 	{
-		@if (Model.Photographs.Count > 0)
+		@*@if (Model.Photographs.Count > 0)
 		{
 			<p class="govuk-caption-l">@Model.Photographs.Count images found</p>
-		}
+		}*@
 
 		<dl class="govuk-summary-list govuk-!-margin-bottom-9">
 			@foreach (var photograph in Model.Photographs)
