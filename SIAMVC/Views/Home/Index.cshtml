@@ -6,6 +6,7 @@
 
 }
 
+
 <div class="text-center">
 	<partial name="SearchForm" model="Model" />
 
@@ -24,9 +25,8 @@
 		<dl class="govuk-summary-list govuk-!-margin-bottom-9">
 			@foreach (var photograph in Model.Photographs)
 			{
-
 				<div class="govuk-summary-list__row">
-					<dt class="govuk-summary-list__key"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim(), searchArea = photograph.SearchArea.Trim() })" class="govuk-link"><img src=@photograph.url onError="this.onerror=null;this.src='./assets/images/notfound.jpg';" /></a></dt>
+					<dt class="govuk-summary-list__key"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim(), searchArea = photograph.SearchArea.Trim() })" class="govuk-link"><img src=@photograph.url onError="this.onerror=null;this.src='./assets/images/notfound.jpg';this.class='hidden'" onload="loadImage()" class="Thumbnail" /></a></dt>
 					<dd class="govuk-summary-list__value"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim(), searchArea = photograph.SearchArea.Trim() })" class="govuk-link">@photograph.Title</a></dd>
 				</div>
 			}

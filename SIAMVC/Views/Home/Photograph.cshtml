@@ -4,24 +4,24 @@
 	var cssClass = "govuk-heading-l";
 	ViewData["Title"] = Model.Title;
 }
-	
-		<h1 class="@cssClass">@Model.Title</h1>
 
-		<img src=@Model.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
-		<br />
-		<div style="text-align:center">
-			<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
-				<span>Prev</span>
-			</a>
-			&nbsp;
-			<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString, searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno})" class="govuk-link">
-				<span>Search results</span>
-			</a>
-			&nbsp;
-			<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
-				<span>Next</span>
-			</a>
-		</div>
+<h1 class="@cssClass">@Model.Title</h1>
+
+<img src=@Model.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" />
+<br />
+<div style="text-align:center">
+	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
+		<span>Prev</span>
+	</a>
+	&nbsp;
+	<a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString, searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno})" class="govuk-link">
+		<span>Search results</span>
+	</a>
+	&nbsp;
+	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
+		<span>Next</span>
+	</a>
+</div>
 <p class="govuk-caption-l"><strong>@Model.Description</strong></p>
 
 <dl class="govuk-summary-list govuk-!-margin-bottom-9">
