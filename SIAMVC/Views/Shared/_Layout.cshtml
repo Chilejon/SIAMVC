@@ -13,13 +13,10 @@
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	<script type="text/javascript">
 
-		//$('img[src="http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/33577.jpg"]').parents('div:first').hide();
 		function loadImage() {
 			var images = document.getElementsByClassName("Thumbnail");
-//			console.log(images.length);
 			for (i = 0; i < images.length; i++) {
-				if (images[i].src == "https://localhost:44368/assets/images/notfound.jpg") {
-//					console.log("found one");
+				if (images[i].src.indexOf("notfound.jpg") >= 0) {
 					images[i].closest('.govuk-summary-list__row').style.display = "none";
 				}
 			} 
