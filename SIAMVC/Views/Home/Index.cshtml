@@ -17,19 +17,22 @@
 
 	@if (Model.Photographs != null)
 	{
-		@*@if (Model.Photographs.Count > 0)
+		@if (Model.Photographs.Count > 0)
 		{
-			<p class="govuk-caption-l">@Model.Photographs.Count images found</p>
-		}*@
+			<p class="govuk-caption-l"><span id="imageCount"></span> images found</p>
+		}
 
-		<dl class="govuk-summary-list govuk-!-margin-bottom-9">
-			@foreach (var photograph in Model.Photographs)
-			{
-				<div class="govuk-summary-list__row">
-					<dt class="govuk-summary-list__key"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim(), searchArea = photograph.SearchArea.Trim() })" class="govuk-link"><img src=@photograph.url onError="this.onerror=null;this.src='./assets/images/notfound.jpg';this.class='hidden'" onload="loadImage()" class="Thumbnail" /></a></dt>
-					<dd class="govuk-summary-list__value"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim(), searchArea = photograph.SearchArea.Trim() })" class="govuk-link">@photograph.Title</a></dd>
-				</div>
-			}
-		</dl>
+<dl class="govuk-summary-list govuk-!-margin-bottom-9">
+	@foreach (var photograph in Model.Photographs)
+	{
+	<div class="govuk-summary-list__row">
+		<dd class="govuk-summary-list__key"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim(), searchArea = photograph.SearchArea.Trim() })" class="govuk-link"><img src=@photograph.url onError="this.onerror=null;this.src='./assets/images/notfound.jpg';this.class='hidden'" onload="loadImage()" class="Thumbnail" width="180" alt="@photograph.Title" /></a></dd>
+		<br />
+		<dd class="govuk-summary-list__value"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = photograph.SearchString.Trim(), searchOption = photograph.SearchOption.Trim(), searchArea = photograph.SearchArea.Trim() })" class="govuk-link">@photograph.Title</a></dd>
+
+	</div>
+
+	}
+</dl>
 	}
 </div>

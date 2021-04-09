@@ -73,6 +73,8 @@ namespace SIAMVC.Controllers
 		[Route("IndexHome")]
 		public async Task<IActionResult> Index(string searchString, string searchOption, string searchArea)
 		{
+
+
 			if (string.IsNullOrEmpty(searchOption))
 			{
 				searchOption = "Title";
@@ -82,6 +84,12 @@ namespace SIAMVC.Controllers
 			indexViewModel.SearchString = searchString;
 			indexViewModel.SearchOption = searchOption;
 			indexViewModel.SearchArea = searchArea;
+
+			if (string.IsNullOrEmpty(searchString))
+			{
+				indexViewModel.Message = "No search term entered";
+				return View(indexViewModel);
+			}
 
 			var cacheKey = indexViewModel.SearchString.Trim() + indexViewModel.SearchOption.Trim() + indexViewModel.SearchArea.Trim();
 

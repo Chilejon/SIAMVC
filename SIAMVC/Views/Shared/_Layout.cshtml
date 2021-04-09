@@ -12,14 +12,17 @@
 	<link href="~/assets/css/form-builder.css" rel="stylesheet" />
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	<script type="text/javascript">
-
 		function loadImage() {
+			var toDelete = 0;
 			var images = document.getElementsByClassName("Thumbnail");
 			for (i = 0; i < images.length; i++) {
 				if (images[i].src.indexOf("notfound.jpg") >= 0) {
 					images[i].closest('.govuk-summary-list__row').style.display = "none";
+					toDelete = toDelete + 1
 				}
-			} 
+			}
+			document.getElementById("imageCount").innerHTML = (images.length - toDelete);
+			console.log(imageCount + toDelete);
 		}
 	</script>
 
