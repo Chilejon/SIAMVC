@@ -3,35 +3,37 @@
 @{
 	var cssClass = "govuk-heading-l";
 	var baseCssClasses = "govuk-input";
-	ViewData["Title"] = "Home Page";
-
+	ViewData["Title"] = "Class search";
 }
 
-	<div class="text-center">
-		<h1 class="@cssClass">Stockport image archive</h1>
-		<partial name="SearchForm" model="Model" />
+<div class="text-center">
+	<h1 class="@cssClass">Stockport image archive</h1>
+	<partial name="SearchForm" model="Model" />
 
-		@if (!string.IsNullOrEmpty(Model.Message))
+	@if (!string.IsNullOrEmpty(Model.Message))
+	{
+		<span class="govuk-caption-l">@Html.DisplayFor(model => model.Message)</span>
+	}
+
+	@if (Model.Photographs != null)
+	{
+		@if (Model.Photographs.Count > 0)
 		{
-			<span class="govuk-caption-l">@Html.DisplayFor(model => model.Message)</span>
+			<p class="govuk-caption-l"><span id="imageCount"></span> images found</p>
 		}
 
-		@if (Model.Photographs != null)
-		{
-			@*@if (Model.Photographs.Count > 0)
+		<dl class="govuk-summary-list govuk-!-margin-bottom-9">
+			@foreach (var photograph in Model.Photographs)
 			{
-				<p class="govuk-caption-l" id="ImageCount">@Model.Photographs.Count images found</p>
-			}*@
+				<div class="govuk-summary-list__row">
+					<dd class="govuk-summary-list__key"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim() })" class="govuk-link"><img src=@photograph.url onError="this.onerror=null;this.src='./assets/images/notfound.jpg';this.class='hidden'" onload="loadImage()" class="Thumbnail" width="180" alt="@photograph.Title" /></a></dd>
+					<br />
+					<dd class="govuk-summary-list__value"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim() })" class="govuk-link">@photograph.Title</a></dd>
 
-			<dl class="govuk-summary-list govuk-!-margin-bottom-9">
-				@foreach (var photograph in Model.Photographs)
-				{
+				</div>
 
-					<div class="govuk-summary-list__row">
-						<dt class="govuk-summary-list__key"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim() })" class="govuk-link"><img src=@photograph.url onError="this.onerror=null;this.src='./assets/images/notfound.jpg';" onload="loadImage()" class="Thumbnail" /></a></dt>
-						<dd class="govuk-summary-list__value"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim() })" class="govuk-link">@photograph.Title</a></dd>
-					</div>
-				}
-			</dl>
-		}
-	</div>
+			}
+		</dl>
+	}
+
+</div>
