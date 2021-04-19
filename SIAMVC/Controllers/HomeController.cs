@@ -23,6 +23,7 @@ namespace SIAMVC.Controllers
 			_memoryCache = memoryCache;
 		}
 
+		//first load
 		[HttpGet]
 		public IActionResult Index()
 		{
@@ -32,49 +33,13 @@ namespace SIAMVC.Controllers
 			return View(indexViewModel);
 		}
 
-		//[HttpPost]
-		//public async Task<IActionResult> IndexAsync(IndexViewModel indexViewModel)
-		//{
-		//	if (!ModelState.IsValid)
-		//	{
-		//		return View(indexViewModel);
-		//	}
-
-		//	var cacheKey = indexViewModel.SearchString.Trim() + indexViewModel.SearchOption.Trim() + indexViewModel.SearchArea.Trim();
-
-		//		if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
-		//		{
-		//			searchResults = await search.SearchPhotographsByTitle(indexViewModel);
-
-		//			var cachExpirationOptions = new MemoryCacheEntryOptions
-		//			{
-		//				AbsoluteExpiration = DateTime.Now.AddHours(6),
-		//				Priority = CacheItemPriority.Normal,
-		//				SlidingExpiration = TimeSpan.FromMinutes(5)
-		//			};
-
-		//			_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
-		//		}
-
-		//	searchResults.SearchString = indexViewModel.SearchString;
-		//	//searchResults.SearchArea = "Bredbury";
-		//	searchResults.SearchOption = indexViewModel.SearchOption;
-
-		//	if (searchResults.Photographs.Count != 1)
-		//	{
-		//		return View(searchResults);
-		//	}
-		//	return RedirectToAction("Photograph", new { accessionno = searchResults.Photographs[0].AccessionNo, searchString = searchResults.SearchString, searchOption = searchResults.SearchOption, searchArea = searchResults.SearchArea });
-
-
-		//}
-
+		//submit pressed
 		[HttpPost]
 		public async Task<IActionResult> Index(string searchString, string searchOption, string searchArea, string classNo)
 		{
 			if (string.IsNullOrEmpty(searchOption))
 			{
-				searchOption = "Title";
+				searchOption = "title";
 			}
 
 			IndexViewModel indexViewModel = new IndexViewModel();
@@ -112,7 +77,7 @@ namespace SIAMVC.Controllers
 			{
 				return View(searchResults);
 			}
-			return RedirectToAction("Photograph", new { accessionno = searchResults.Photographs[0].AccessionNo, searchString = searchResults.SearchString, searchOption = searchResults.SearchOption, searchArea = searchResults.SearchArea });
+			return RedirectToAction("Photograph", new { accessionno = searchResults.Photographs[0].AccessionNo, searchString = searchResults.SearchString, searchOption = searchResults.SearchOption, searchArea = searchResults.SearchArea, singleImage = true });
 		}
 
 		[HttpGet]
@@ -199,7 +164,7 @@ namespace SIAMVC.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> PhotographAsync(string accessionno, string searchString, string searchOption, string searchArea)
+		public async Task<IActionResult> PhotographAsync(string accessionno, string searchString, string searchOption, string searchArea, bool singleImage)
 		{
 			var cacheKey = accessionno.Trim();
 
@@ -215,6 +180,8 @@ namespace SIAMVC.Controllers
 				};
 
 				_memoryCache.Set(cacheKey, photograph, cachExpirationOptions);
+
+				photograph.singleImage = singleImage;
 			}
 
 			return View(photograph);

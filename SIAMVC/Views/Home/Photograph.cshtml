@@ -10,14 +10,16 @@
 	<p class="smbc-body">@Model.Description</p>
 	<img src=@Model.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" alt="@Model.Title" />
 	<br />
-
+	@if (!Model.singleImage)
+	{
 	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
-		<span style="float:left" class="govuk-button">< Prev</span>
+		<span style="float:left" class="govuk-button">&lt; Prev</span>
 	</a>
 
 	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
-		<span style="float:right" class="govuk-button">Next ></span>
+		<span style="float:right" class="govuk-button">Next &gt;</span>
 	</a>
+	}
 </div>
 
 <dl class="govuk-summary-list govuk-!-margin-bottom-9" style="width:600px">
