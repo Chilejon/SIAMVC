@@ -327,6 +327,24 @@ namespace SIAMVC.Services
 			}
 		}
 
+		public bool ImageExisits(Photograph photograph)
+		{
+			HttpWebResponse httpResponse = null;
+			WebRequest webRequest = WebRequest.Create(photograph.url);
+			webRequest.Timeout = 1200;
+			webRequest.Method = "Head";
+
+			try
+			{
+				var resp = (HttpWebResponse)webRequest.GetResponse();
+				return true;
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+		}
+
 		public async Task<Photograph> GetPhotographsByAccessionNo(string accessionNo, string searchString, string searchOption, string searchArea)
 		{
 			HttpClient client = new HttpClient();

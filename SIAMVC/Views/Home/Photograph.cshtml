@@ -13,11 +13,11 @@
 	@if (!Model.singleImage)
 	{
 	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno, classSearch = Model.ClassSearch })" class="govuk-link">
-		<span style="float:left" class="govuk-button">&lt; Prev</span>
+		<span style="float:left; background-color:#222222" class="govuk-button">&lt; Prev</span>
 	</a>
 
 	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno, classSearch = Model.ClassSearch })" class="govuk-link">
-		<span style="float:right" class="govuk-button">Next &gt;</span>
+		<span style="float:right; background-color:#222222" class="govuk-button">Next &gt;</span>
 	</a>
 	}
 </div>

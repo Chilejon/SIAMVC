@@ -192,7 +192,14 @@ namespace SIAMVC.Controllers
 				photograph.ClassSearch = classSearch;
 			}
 
-			return View(photograph);
+			if (photograph.url != "./assets/images/NotFound.jpg")
+			{ 
+				return View(photograph);
+			}
+			else
+			{
+				return RedirectToAction("Next", new { accessionno = accessionno, direction = "next", searchString = searchString, searchOption = searchOption, searchArea = searchArea, classSearch = classSearch });
+			}
 		}
 
 		[HttpGet]
