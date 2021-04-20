@@ -12,6 +12,7 @@ namespace SIAMVC.Models
 		public string Message { get; set; }
 		public string SearchOption { get; set; }
 		public string SearchArea { get; set; }
+		public bool ClassSearch { get; set; }
 		public List<Photograph> Photographs { get; set; } = new List<Photograph>();
 	}
 }

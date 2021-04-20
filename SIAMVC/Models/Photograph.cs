@@ -35,6 +35,7 @@ namespace SIAMVC.Models
 		public string SearchOption { get; set; }
 		public string SearchArea { get; set; }
 		public bool singleImage { get; set; }
+		public bool ClassSearch { get; set; }
 		public List<Photograph> SearchResults { get; set; }
 
 		

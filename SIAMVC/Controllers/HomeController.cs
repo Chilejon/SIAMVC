@@ -112,16 +112,23 @@ namespace SIAMVC.Controllers
 				_memoryCache.Set(cacheKey, searchResults, cachExpirationOptions);
 			}
 
-			//return RedirectToAction("Index", searchResults);
 			return View("Index", searchResults);
-			//return RedirectToAction("Index", new { IndexViewModel = searchResults });
+
 		}
 
 		[HttpGet]
 		[Route("Next")]
-		public async Task<IActionResult> Next(string searchString, string accessionNo, string direction, string searchOption, string searchArea, string classNo)
+		public async Task<IActionResult> Next(string searchString, string accessionNo, string direction, string searchOption, string searchArea, string classNo, bool classSearch)
 		{
-			var cacheKey = searchString.Trim() + searchOption + searchArea + classNo.Trim();
+			var cacheKey = string.Empty;
+			if (classSearch)
+			{
+				cacheKey = classNo.Trim();
+			}
+			else
+			{
+				cacheKey = searchString.Trim() + searchOption + searchArea; // + classNo.Trim();
+			}
 
 			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults))
 			{
@@ -160,11 +167,11 @@ namespace SIAMVC.Controllers
 					nextPhotograph = searchResults.Photographs.Last();
 				}
 			}
-			return RedirectToAction("Photograph", new { accessionno = nextPhotograph.AccessionNo.Trim(), searchString = searchString, searchOption = searchOption, searchArea = searchArea });
+			return RedirectToAction("Photograph", new { accessionno = nextPhotograph.AccessionNo.Trim(), searchString = searchString, searchOption = searchOption, searchArea = searchArea, classSearch = classSearch });
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> PhotographAsync(string accessionno, string searchString, string searchOption, string searchArea, bool singleImage)
+		public async Task<IActionResult> PhotographAsync(string accessionno, string searchString, string searchOption, string searchArea, bool singleImage, bool classSearch)
 		{
 			var cacheKey = accessionno.Trim();
 
@@ -182,6 +189,7 @@ namespace SIAMVC.Controllers
 				_memoryCache.Set(cacheKey, photograph, cachExpirationOptions);
 
 				photograph.singleImage = singleImage;
+				photograph.ClassSearch = classSearch;
 			}
 
 			return View(photograph);
@@ -189,11 +197,10 @@ namespace SIAMVC.Controllers
 
 		[HttpGet]
 		[Route("ClassSearch")]
-		public async Task<IActionResult> ClassSearch(string classNo, string searchString, string searchOption, string searchArea)
+		public async Task<IActionResult> ClassSearch(string classNo, string searchString, string searchOption, string searchArea, bool classSearch)
 		{
-
-			var cacheKey = searchString.Trim() + searchOption + searchArea + classNo.Trim();
-			//var cacheKey = classNo.Trim();
+			//var cacheKey = searchString.Trim() + searchOption + searchArea + classNo.Trim();
+			var cacheKey = classNo.Trim();
 
 			if (!_memoryCache.TryGetValue(cacheKey, out IndexViewModel searchResults)) //out List<Photograph> photographs
 			{
@@ -215,6 +222,7 @@ namespace SIAMVC.Controllers
 			searchResults.SearchString = searchString;
 			searchResults.SearchArea = searchArea;
 			searchResults.SearchOption = searchOption;
+			searchResults.ClassSearch = classSearch;
 			return View(searchResults);
 
 			//return View(photographs);

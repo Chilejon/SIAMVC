@@ -12,11 +12,11 @@
 	<br />
 	@if (!Model.singleImage)
 	{
-	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
+	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno, classSearch = Model.ClassSearch })" class="govuk-link">
 		<span style="float:left" class="govuk-button">&lt; Prev</span>
 	</a>
 
-	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno })" class="govuk-link">
+	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno, classSearch = Model.ClassSearch })" class="govuk-link">
 		<span style="float:right" class="govuk-button">Next &gt;</span>
 	</a>
 	}
@@ -31,7 +31,7 @@
 		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Classno)</dt>
 		<dd class="govuk-summary-list__value">
 			@Html.DisplayFor(model => model.Classno)
-			<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno, searchOption = Model.Classno.Trim(), searchArea = Model.SearchArea, searchString = Model.SearchString })" class="govuk-link">
+			<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno, searchOption = Model.SearchOption, searchArea = Model.SearchArea, searchString = Model.SearchString, classSearch = true })" class="govuk-link">
 				More like this
 			</a>
 		</dd>

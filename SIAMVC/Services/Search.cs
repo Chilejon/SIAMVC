@@ -286,6 +286,7 @@ namespace SIAMVC.Services
 						photograph.SearchOption = "class";
 						photograph.SearchString = "class";
 						photograph.SearchArea = "all";
+						photograph.ClassSearch = true;
 					}
 				}
 				else
