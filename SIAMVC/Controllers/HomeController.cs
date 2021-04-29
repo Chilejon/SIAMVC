@@ -175,30 +175,43 @@ namespace SIAMVC.Controllers
 		{
 			var cacheKey = accessionno.Trim();
 
-			if (!_memoryCache.TryGetValue(cacheKey, out Photograph photograph))
+			try
 			{
-				photograph = await search.GetPhotographsByAccessionNo(accessionno.ToString(), searchString, searchOption, searchArea);
 
-				var cachExpirationOptions = new MemoryCacheEntryOptions
+
+				if (!_memoryCache.TryGetValue(cacheKey, out Photograph photograph))
 				{
-					AbsoluteExpiration = DateTime.Now.AddHours(6),
-					Priority = CacheItemPriority.Normal,
-					SlidingExpiration = TimeSpan.FromMinutes(5)
-				};
+					photograph = await search.GetPhotographsByAccessionNo(accessionno.ToString(), searchString, searchOption, searchArea);
 
-				_memoryCache.Set(cacheKey, photograph, cachExpirationOptions);
+					var cachExpirationOptions = new MemoryCacheEntryOptions
+					{
+						AbsoluteExpiration = DateTime.Now.AddHours(6),
+						Priority = CacheItemPriority.Normal,
+						SlidingExpiration = TimeSpan.FromMinutes(5)
+					};
 
-				photograph.singleImage = singleImage;
-				photograph.ClassSearch = classSearch;
+					_memoryCache.Set(cacheKey, photograph, cachExpirationOptions);
+
+					photograph.singleImage = singleImage;
+					if (string.IsNullOrEmpty(searchString) && !classSearch && string.IsNullOrEmpty(searchOption)) photograph.singleImage = true;
+					photograph.ClassSearch = classSearch;
+				}
+
+				if (photograph.url != "./assets/images/NotFound.jpg")
+				{
+					return View(photograph);
+				}
+				else
+				{
+					return RedirectToAction("Next", new { accessionno = accessionno, direction = "next", searchString = searchString, searchOption = searchOption, searchArea = searchArea, classSearch = classSearch });
+				}
+
 			}
-
-			if (photograph.url != "./assets/images/NotFound.jpg")
-			{ 
-				return View(photograph);
-			}
-			else
+			catch (Exception)
 			{
-				return RedirectToAction("Next", new { accessionno = accessionno, direction = "next", searchString = searchString, searchOption = searchOption, searchArea = searchArea, classSearch = classSearch });
+				return RedirectToAction("Index");
+
+				throw;
 			}
 		}
 

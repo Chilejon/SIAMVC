@@ -4,11 +4,11 @@
 	var cssClass = "govuk-heading-l";
 	ViewData["Title"] = Model.Title;
 }
-<a href="javascript:history.back(-1)" class="govuk-back-link">Back</a>
-<div style="width:600px">
+@*<a href="javascript:history.back(-1)" class="govuk-back-link">Back</a>*@
+<div style="width:100%">
 	<h1 class="@cssClass">@Model.Title</h1>
 	<p class="smbc-body">@Model.Description</p>
-	<img src=@Model.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" alt="@Model.Title" />
+	<img src=@Model.url onError="this.onerror=null;this.src='../assets/images/notfound.jpg';" alt="@Model.Title" style="width:100%" />
 	<br />
 	@if (!Model.singleImage)
 	{
@@ -21,63 +21,64 @@
 	</a>
 	}
 </div>
-
-<dl class="govuk-summary-list govuk-!-margin-bottom-9" style="width:600px">
-	<div class="govuk-summary-list__row">
-		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.AccessionNo)</dt>
-		<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.AccessionNo)</dd>
-	</div>
-	<div class="govuk-summary-list__row">
-		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Classno)</dt>
-		<dd class="govuk-summary-list__value">
-			@Html.DisplayFor(model => model.Classno)
-			<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno, searchOption = Model.SearchOption, searchArea = Model.SearchArea, searchString = Model.SearchString, classSearch = true })" class="govuk-link">
-				More like this
-			</a>
-		</dd>
-	</div>
-	<div class="govuk-summary-list__row">
-		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Photographer)</dt>
-		<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.Photographer)</dd>
-	</div>
-	<div class="govuk-summary-list__row">
-		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Dateofimage)</dt>
-		<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.Dateofimage)</dd>
-	</div>
-	<div class="govuk-summary-list__row">
-		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Area)</dt>
-		<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.Area)</dd>
-	</div>
-	<div class="govuk-summary-list__row">
-		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Incopyright)</dt>
-		<dd class="govuk-summary-list__value">
-			@if (Model.Incopyright == "Y")
+<div class="clearfix" style="height:100px"></div>
+	<dl class="govuk-summary-list govuk-!-margin-bottom-9" style="width:600px">
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.AccessionNo)</dt>
+			<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.AccessionNo)</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Classno)</dt>
+			<dd class="govuk-summary-list__value">
+				@Html.DisplayFor(model => model.Classno)
+				<a href="@Url.Action("ClassSearch", "Home", new { classNo = Model.Classno, searchOption = Model.SearchOption, searchArea = Model.SearchArea, searchString = Model.SearchString, classSearch = true })" class="govuk-link">
+					More like this
+				</a>
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Photographer)</dt>
+			<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.Photographer)</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Dateofimage)</dt>
+			<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.Dateofimage)</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Area)</dt>
+			<dd class="govuk-summary-list__value">@Html.DisplayFor(model => model.Area)</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Incopyright)</dt>
+			<dd class="govuk-summary-list__value">
+				@if (Model.Incopyright == "Y")
 			{
-			<text>Yes</text>
+				<text>Yes</text>
 			}
 			else
 			{
-			<text>No</text>
+				<text>No</text>
 			}
-		</dd>
-	</div>
-	<div class="govuk-summary-list__row">
-		<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Availabletobuy)</dt>
-		<dd class="govuk-summary-list__value">
-			@if (Model.Availabletobuy == "Y")
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">@Html.DisplayNameFor(model => model.Availabletobuy)</dt>
+			<dd class="govuk-summary-list__value">
+				@if (Model.Availabletobuy == "Y")
 			{
-			<a href="@Url.Action("OrderAPrint", "Home", new { classNo = Model.Classno, accessionNo = Model.AccessionNo })" class="govuk-link">
-				Yes
-			</a>
+				<a href="@Url.Action("OrderAPrint", "Home", new { classNo = Model.Classno, accessionNo = Model.AccessionNo })" class="govuk-link">
+					Yes
+				</a>
 			}
 			else
 			{
-			<text>No</text>
+				<text>No</text>
 			}
-		</dd>
-	</div>
+			</dd>
+		</div>
 
-</dl>
+	</dl>
+
 <a href="@Url.Action("ShowResults", "Home", new { searchString = Model.SearchString, searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno})" class="govuk-link">
 	<span>Return to search results</span>
 </a>

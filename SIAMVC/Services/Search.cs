@@ -352,6 +352,10 @@ namespace SIAMVC.Services
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 			HttpResponseMessage response = client.GetAsync(idParameters + accessionNo).Result;
 
+			try
+			{
+
+			
 			if (response.IsSuccessStatusCode)
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
@@ -374,6 +378,13 @@ namespace SIAMVC.Services
 			}
 			client.Dispose();
 			return null;
+			}
+			catch (Exception)
+			{
+				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+				client.Dispose();
+				return null;
+			}
 		}
 	}
 }
