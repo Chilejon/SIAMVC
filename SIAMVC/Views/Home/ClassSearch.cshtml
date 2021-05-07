@@ -26,9 +26,9 @@
 			@foreach (var photograph in Model.Photographs)
 			{
 				<div class="govuk-summary-list__row">
-					<dd class="govuk-summary-list__key"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim(), ClassSearch = Model.ClassSearch })" class="govuk-link"><img src=@photograph.url onError="this.onerror=null;this.src='./assets/images/notfound.jpg';this.class='hidden'" onload="loadImage()" class="Thumbnail" width="180" alt="@photograph.Title" /></a></dd>
+					<dd class="govuk-summary-list__key"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim(), ClassSearch = Model.ClassSearch, first = photograph.First, last = photograph.Last })" class="govuk-link"><img src=@photograph.url onError="this.onerror=null;this.src='./assets/images/notfound.jpg';this.class='hidden'" onload="loadImage()" class="Thumbnail" width="180" alt="@photograph.Title" /></a></dd>
 					<br />
-					<dd class="govuk-summary-list__value"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim(), ClassSearch = Model.ClassSearch })" class="govuk-link">@photograph.Title</a></dd>
+					<dd class="govuk-summary-list__value"><a href="@Url.Action("Photograph", "Home", new { accessionno = photograph.AccessionNo.Trim(), searchString = Model.SearchString.Trim(), searchOption = Model.SearchOption.Trim(), searchArea = Model.SearchArea.Trim(), ClassSearch = Model.ClassSearch, first = photograph.First, last = photograph.Last })" class="govuk-link">@photograph.Title</a></dd>
 
 				</div>
 

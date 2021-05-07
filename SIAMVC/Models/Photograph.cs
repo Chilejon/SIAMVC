@@ -37,7 +37,8 @@ namespace SIAMVC.Models
 		public bool singleImage { get; set; }
 		public bool ClassSearch { get; set; }
 		public List<Photograph> SearchResults { get; set; }
+		public bool First { get; set; } = false;
+		public bool Last { get; set; } = false;
 
-		
 	}
 }

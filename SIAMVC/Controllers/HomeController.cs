@@ -171,7 +171,7 @@ namespace SIAMVC.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> PhotographAsync(string accessionno, string searchString, string searchOption, string searchArea, bool singleImage, bool classSearch)
+		public async Task<IActionResult> PhotographAsync(string accessionno, string searchString, string searchOption, string searchArea, bool singleImage, bool classSearch, bool first, bool last)
 		{
 			var cacheKey = accessionno.Trim();
 
@@ -195,6 +195,8 @@ namespace SIAMVC.Controllers
 					photograph.singleImage = singleImage;
 					if (string.IsNullOrEmpty(searchString) && !classSearch && string.IsNullOrEmpty(searchOption)) photograph.singleImage = true;
 					photograph.ClassSearch = classSearch;
+					photograph.Last = last;
+					photograph.First = first;
 				}
 
 				if (photograph.url != "./assets/images/NotFound.jpg")

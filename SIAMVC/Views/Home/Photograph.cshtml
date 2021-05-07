@@ -12,13 +12,19 @@
 	<br />
 	@if (!Model.singleImage)
 	{
+		if (!Model.First)
+		{
 	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "prev", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno, classSearch = Model.ClassSearch })" class="govuk-link">
 		<span style="float:left; background-color:#48494b" class="govuk-button">&lt; Prev</span>
 	</a>
+		}
 
+		if (!Model.Last)
+		{
 	<a href="@Url.Action("Next", "Home", new { searchString = Model.SearchString, accessionno = Model.AccessionNo.Trim(), direction = "next", searchOption = Model.SearchOption, searchArea = Model.SearchArea, classNo = Model.Classno, classSearch = Model.ClassSearch })" class="govuk-link">
 		<span style="float:right; background-color:#48494b" class="govuk-button">Next &gt;</span>
 	</a>
+		}
 	}
 </div>
 <div class="clearfix" style="height:100px"></div>

@@ -106,6 +106,12 @@ namespace SIAMVC.Services
 				{
 					indexViewModel.Message = "No search results for : " + indexViewModel.SearchString;
 				}
+				// block out first and last buttons
+				if (indexViewModel.Photographs.Count > 1)
+				{
+					indexViewModel.Photographs[0].First = true;
+					indexViewModel.Photographs[indexViewModel.Photographs.Count - 1].Last = true;
+				}
 				return indexViewModel;
 			}
 			if (response.IsSuccessStatusCode && indexViewModel.SearchOption == "IDNumber")
@@ -189,12 +195,7 @@ namespace SIAMVC.Services
 				}
 			}
 
-
-
 			//HttpResponseMessage response = client.GetAsync(urlParameters + searchString).Result;
-
-
-
 			if (response.IsSuccessStatusCode)
 			{
 				var listPhotographs = response.Content.ReadAsStringAsync().Result;
@@ -221,6 +222,9 @@ namespace SIAMVC.Services
 				{
 					indexViewModel.Message = "No search results for : " + indexViewModel.SearchString;
 				}
+
+
+
 				return indexViewModel;
 			}
 			else
@@ -231,38 +235,38 @@ namespace SIAMVC.Services
 			return indexViewModel;
 		}
 
-		public async Task<List<Photograph>> GetPhotographsByClassNo(string classNo)
-		{
-			client.BaseAddress = new Uri(GetClassNo);
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			HttpResponseMessage response = client.GetAsync(idParameters + classNo).Result;
-			List<Photograph> allPhotographs = new List<Photograph>();
+		//public async Task<List<Photograph>> GetPhotographsByClassNo(string classNo)
+		//{
+		//	client.BaseAddress = new Uri(GetClassNo);
+		//	client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+		//	HttpResponseMessage response = client.GetAsync(idParameters + classNo).Result;
+		//	List<Photograph> allPhotographs = new List<Photograph>();
 
-			if (response.IsSuccessStatusCode)
-			{
-				var listPhotographs = response.Content.ReadAsStringAsync().Result;
-				var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
-				if (photographs != null)
-				{
-					photographs = photographs.GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList();
-					foreach (var photograph in photographs)
-					{
-						photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
-					}
-				}
-				else
-				{
-				}
-				allPhotographs = photographs;
+		//	if (response.IsSuccessStatusCode)
+		//	{
+		//		var listPhotographs = response.Content.ReadAsStringAsync().Result;
+		//		var photographs = JsonConvert.DeserializeObject<List<Photograph>>(listPhotographs);
+		//		if (photographs != null)
+		//		{
+		//			photographs = photographs.GroupBy(x => x.AccessionNo).Select(x => x.First()).ToList();
+		//			foreach (var photograph in photographs)
+		//			{
+		//				photograph.url = "http://interactive.stockport.gov.uk/stockportimagearchive/SIA/thumbnails/" + photograph.AccessionNo.Trim() + ".jpg";
+		//			}
+		//		}
+		//		else
+		//		{
+		//		}
+		//		allPhotographs = photographs;
 				
-			}
-			else
-			{
-				Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-			}
-			client.Dispose();
-			return allPhotographs;
-		}
+		//	}
+		//	else
+		//	{
+		//		Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+		//	}
+		//	client.Dispose();
+		//	return allPhotographs;
+		//}
 
 		public async Task<IndexViewModel> GetPhotographsByClassNo2(string classNo)
 		{
@@ -305,6 +309,12 @@ namespace SIAMVC.Services
 			indexViewModel.SearchString = "class";
 			indexViewModel.SearchArea = "all";
 			indexViewModel.Message = "Class No. : " + classNo;
+			// block out first and last buttons
+			if (indexViewModel.Photographs.Count > 1)
+			{
+				indexViewModel.Photographs[0].First = true;
+				indexViewModel.Photographs[indexViewModel.Photographs.Count - 1].Last = true;
+			}
 
 			return indexViewModel;
 		}
