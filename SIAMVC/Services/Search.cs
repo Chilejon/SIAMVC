@@ -101,17 +101,14 @@ namespace SIAMVC.Services
 					{
 						indexViewModel.Message = "No search results for : " + indexViewModel.SearchString;
 					}
-					}
+				}
 				else
 				{
 					indexViewModel.Message = "No search results for : " + indexViewModel.SearchString;
 				}
-				// block out first and last buttons
-				if (indexViewModel.Photographs.Count > 1)
-				{
-					indexViewModel.Photographs[0].First = true;
-					indexViewModel.Photographs[indexViewModel.Photographs.Count - 1].Last = true;
-				}
+
+				RemoveFirstAndLastButtons(indexViewModel);
+
 				return indexViewModel;
 			}
 			if (response.IsSuccessStatusCode && indexViewModel.SearchOption == "IDNumber")
@@ -141,6 +138,27 @@ namespace SIAMVC.Services
 			}
 			client.Dispose();
 			return indexViewModel;
+		}
+
+		private void RemoveFirstAndLastButtons(IndexViewModel indexViewModel)
+		{
+			if (indexViewModel.Photographs.Count > 1)
+			{
+				int count = 0;
+				foreach (var photograph in indexViewModel.Photographs)
+				{
+					if (!ImageExisits(photograph))
+					{
+						count++;
+					}
+					else
+					{
+						break;
+					}
+				}
+				indexViewModel.Photographs[count].First = true;
+				indexViewModel.Photographs[indexViewModel.Photographs.Count - 1].Last = true;
+			}
 		}
 
 		public async Task<IndexViewModel> SearchPhotographsByTitle(string searchString, string searchOptions, string searchArea)
@@ -309,12 +327,7 @@ namespace SIAMVC.Services
 			indexViewModel.SearchString = "class";
 			indexViewModel.SearchArea = "all";
 			indexViewModel.Message = "Class No. : " + classNo;
-			// block out first and last buttons
-			if (indexViewModel.Photographs.Count > 1)
-			{
-				indexViewModel.Photographs[0].First = true;
-				indexViewModel.Photographs[indexViewModel.Photographs.Count - 1].Last = true;
-			}
+			RemoveFirstAndLastButtons(indexViewModel);
 
 			return indexViewModel;
 		}
